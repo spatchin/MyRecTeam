@@ -10,11 +10,5 @@ Documentation and Support
 Issues
 -------------
 
-Contributing
-------------
-
 Credits
--------
-
-License
 -------
