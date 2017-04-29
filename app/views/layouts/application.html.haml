@@ -13,7 +13,7 @@
         = render 'layouts/navigation'
       %main{role: "main"}
         #page-wrapper
-          .container-fluid{style: 'padding: 0 5%;'}
+          .container{style: 'padding: 0 5%;'}
             - if content_for?(:pagetop)
               .page-header= yield :pagetop
             - elsif content_for?(:pagetitle) || content_for?(:itembar)
