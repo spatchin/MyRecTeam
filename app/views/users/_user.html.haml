@@ -1,0 +1,9 @@
+%tr
+  %td
+    = link_to user.email, user
+  %td
+    = bootstrap_form_for user, layout: :inline do |f|
+      = f.select :role, User.roles.keys.map {|role| [role.titleize,role]}, {hide_label: true}, {class: 'input-sm'}
+      = f.submit 'Change Role', class: 'btn btn-default btn-sm'
+  %td
+    = link_to "Delete user", user_path(user), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-defulat btn-xs' unless user == current_user
