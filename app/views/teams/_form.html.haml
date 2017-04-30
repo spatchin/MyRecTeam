@@ -1,10 +1,10 @@
-= form_for @team do |f|
-  - if @team.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@team.errors.count, "error")} prohibited this team from being saved:"
-      %ul
-        - @team.errors.full_messages.each do |message|
-          %li= message
-
-  .actions
-    = f.submit 'Save'
+.row
+  .col-md-offset-3.col-md-6
+    .panel.panel-default
+      .panel-body
+        = bootstrap_form_for @team do |f|
+          = f.alert_message "Please fix the errors below."
+          = f.text_field :name, autofocus: true
+          = f.text_area :description
+          = f.text_field :location
+          = f.submit

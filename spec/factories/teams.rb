@@ -5,6 +5,7 @@
 #  id          :integer          not null, primary key
 #  name        :string
 #  description :text
+#  location    :string
 #  wins        :integer
 #  losses      :integer
 #  draws       :integer

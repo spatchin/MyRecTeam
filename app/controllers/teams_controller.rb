@@ -1,4 +1,5 @@
 class TeamsController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
 
   # GET /teams
@@ -24,7 +25,8 @@ class TeamsController < ApplicationController
   # POST /teams
   # POST /teams.json
   def create
-    @team = Team.new(team_params)
+    @team = Team.new(resource_params)
+    @team.created_by = current_user
 
     respond_to do |format|
       if @team.save
@@ -41,7 +43,7 @@ class TeamsController < ApplicationController
   # PATCH/PUT /teams/1.json
   def update
     respond_to do |format|
-      if @team.update(team_params)
+      if @team.update(resource_params)
         format.html { redirect_to @team, notice: 'Team was successfully updated.' }
         format.json { render :show, status: :ok, location: @team }
       else
@@ -69,7 +71,7 @@ class TeamsController < ApplicationController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def team_params
-    params.fetch(:team, {})
+  def resource_params
+    params.require(:team).permit(:name, :description, :location)
   end
 end

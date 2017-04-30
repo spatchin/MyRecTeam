@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20170428233238) do
   create_table "teams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
+    t.string   "location"
     t.integer  "wins"
     t.integer  "losses"
     t.integer  "draws"

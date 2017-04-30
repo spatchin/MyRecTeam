@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
 
   # GET /games
@@ -24,7 +25,8 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    @game = Game.new(game_params)
+    @game = Game.new(resource_params)
+    @game.created_by = current_user
 
     respond_to do |format|
       if @game.save
@@ -41,7 +43,7 @@ class GamesController < ApplicationController
   # PATCH/PUT /games/1.json
   def update
     respond_to do |format|
-      if @game.update(game_params)
+      if @game.update(resource_params)
         format.html { redirect_to @game, notice: 'Game was successfully updated.' }
         format.json { render :show, status: :ok, location: @game }
       else

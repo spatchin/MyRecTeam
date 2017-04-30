@@ -5,6 +5,7 @@
 #  id          :integer          not null, primary key
 #  name        :string
 #  description :text
+#  location    :string
 #  wins        :integer
 #  losses      :integer
 #  draws       :integer
@@ -18,5 +19,8 @@
 #
 
 class Team < ApplicationRecord
-  belongs_to :created_by, class_name: 'User'
+  belongs_to :created_by, class_name: 'User', foreign_key: 'user_id'
+
+  validates :name, :location, presence: true
+  validates :name, uniqueness: true
 end

@@ -1,6 +1,26 @@
-%p#notice= notice
+- content_for :pagetitle do
+  %h1 Team: #{@team.name}
+- content_for :itembar do
+  = link_to 'Edit', edit_team_path(@team), class: 'btn btn-default' if policy(@team).edit?
+  = link_to 'Back', teams_path, class: 'btn btn-default' if policy(@team).index?
 
-
-= link_to 'Edit', edit_team_path(@team)
-\|
-= link_to 'Back', teams_path
+.row
+  .col-sm-6
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Details
+      .panel-body
+        %p
+          %strong Name:
+          = @team.name
+        %p
+          %strong Description:
+          = @team.description
+        %p
+          %strong Location:
+          = @team.location
+  .col-sm-6
+    .panel.panel-info
+      .panel-heading
+        %h3.panel-title Image
+      .panel-body

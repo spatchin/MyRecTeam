@@ -1,19 +1,22 @@
-%h1 Listing teams
+- content_for :pagetitle do
+  %h1 Teams
+- content_for :itembar do
+  = link_to 'New team', new_team_path, class: 'btn btn-success' if policy(Team).new?
 
-%table
-  %thead
-    %tr
-      %th
-      %th
-      %th
-
-  %tbody
-    - @teams.each do |team|
-      %tr
-        %td= link_to 'Show', team
-        %td= link_to 'Edit', edit_team_path(team)
-        %td= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Team', new_team_path
+.row
+  .col-md-8
+    %table.table#team{style: 'width:100%;'}
+      %thead
+        %tr
+          %th Name
+          %th Location
+          %th Actions
+      %tbody
+        - @teams.each do |team|
+          %tr
+            %td= team.name
+            %td= team.location
+            %td
+              = link_to 'Edit', edit_team_path(team) if policy(team).edit?
+              = '|' if policy(team).edit? && policy(team).destroy?
+              = link_to 'Destroy', team, method: :delete, 'data-confirm': 'Are you sure?' if policy(team).destroy?

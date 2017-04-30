@@ -1,7 +1,6 @@
-%h1 Editing team
+- content_for :pagetitle do
+  %h1 Editing Team
+- content_for :itembar do
+  = link_to 'Back', :back, class: 'btn btn-default'
 
 = render 'form'
-
-= link_to 'Show', @team
-\|
-= link_to 'Back', teams_path
