@@ -41,6 +41,9 @@
 #
 
 class User < ApplicationRecord
+  has_many :created_games, class_name: 'Game'
+  has_many :created_teams, class_name: 'Team'
+
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, if: :new_record?
 
