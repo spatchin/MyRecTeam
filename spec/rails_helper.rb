@@ -36,8 +36,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  config.formatter = :documentation
-
   # Factory girl
   config.include FactoryGirl::Syntax::Methods
 

@@ -1,19 +1,22 @@
-%h1 Listing games
+- content_for :pagetitle do
+  %h1 Games
+- content_for :itembar do
+  = link_to 'New game', new_game_path, class: 'btn btn-success' if policy(Game).new?
 
-%table
-  %thead
-    %tr
-      %th
-      %th
-      %th
-
-  %tbody
-    - @games.each do |game|
-      %tr
-        %td= link_to 'Show', game
-        %td= link_to 'Edit', edit_game_path(game)
-        %td= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Game', new_game_path
+.row
+  .col-md-8
+    %table.table#game{style: 'width:100%;'}
+      %thead
+        %tr
+          %th Name
+          %th Location
+          %th Actions
+      %tbody
+        - @games.each do |game|
+          %tr
+            %td= game.name
+            %td= game.location
+            %td
+              = link_to 'Edit', edit_game_path(game) if policy(game).edit?
+              = '|' if policy(game).edit? && policy(game).destroy?
+              = link_to 'Destroy', game, method: :delete, 'data-confirm': 'Are you sure?' if policy(game).destroy?

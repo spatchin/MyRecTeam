@@ -1,10 +1,10 @@
-= form_for @game do |f|
-  - if @game.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@game.errors.count, "error")} prohibited this game from being saved:"
-      %ul
-        - @game.errors.full_messages.each do |message|
-          %li= message
-
-  .actions
-    = f.submit 'Save'
+.row
+  .col-md-offset-3.col-md-6
+    .panel.panel-default
+      .panel-body
+        = bootstrap_form_for @game do |f|
+          = f.alert_message "Please fix the errors below."
+          = f.text_field :name, autofocus: true
+          = f.datetime_local_field :time
+          = f.text_field :location
+          = f.submit

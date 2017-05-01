@@ -1,6 +1,29 @@
-%p#notice= notice
+- content_for :pagetitle do
+  %h1 Game: #{@game.name}
+- content_for :itembar do
+  = link_to 'Edit', edit_game_path(@game), class: 'btn btn-default' if policy(@game).edit?
+  = link_to 'Back', games_path, class: 'btn btn-default' if policy(@game).index?
 
-
-= link_to 'Edit', edit_game_path(@game)
-\|
-= link_to 'Back', games_path
+.row
+  .col-sm-6
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Details
+      .panel-body
+        %p
+          %strong Name:
+          = @game.name
+        %p
+          %strong Notes:
+          = @game.notes
+        %p
+          %strong Time:
+          = @game.time
+        %p
+          %strong Location:
+          = @game.location
+  .col-sm-6
+    .panel.panel-info
+      .panel-heading
+        %h3.panel-title Image
+      .panel-body

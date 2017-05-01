@@ -1,7 +1,6 @@
-%h1 Editing game
+- content_for :pagetitle do
+  %h1 Editing Game
+- content_for :itembar do
+  = link_to 'Back', :back, class: 'btn btn-default'
 
 = render 'form'
-
-= link_to 'Show', @game
-\|
-= link_to 'Back', games_path
