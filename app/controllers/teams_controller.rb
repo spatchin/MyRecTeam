@@ -27,6 +27,7 @@ class TeamsController < ApplicationController
   def create
     @team = Team.new(resource_params)
     @team.created_by = current_user
+    @team.captain = current_user
 
     respond_to do |format|
       if @team.save

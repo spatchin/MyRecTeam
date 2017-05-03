@@ -14,26 +14,26 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    @user.try(:admin?) || @record.all_member_ids.includes?(@user.try(:id))
   end
 
   def new?
-    true
+    @user
   end
 
   def create?
-    true
+    @user
   end
 
   def edit?
-    true
+    @user.try(:admin?) || @record.is_key_person?(@user)
   end
 
   def update?
-    true
+    edit?
   end
 
   def destroy?
-    true
+    @user.try(:admin?) || @record.created_by == @user
   end
 end

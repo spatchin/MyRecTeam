@@ -19,7 +19,9 @@
 class Game < ApplicationRecord
   belongs_to :created_by, class_name: 'User', foreign_key: 'user_id'
 
+  has_many :team_attendances
+  has_many :teams, through: :team_attendances
+
   validates :name, presence: true
   validates :name, uniqueness: true
-
 end

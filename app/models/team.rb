@@ -21,6 +21,39 @@
 class Team < ApplicationRecord
   belongs_to :created_by, class_name: 'User', foreign_key: 'user_id'
 
+  has_many :members
+  has_many :users, through: :members
+
+  has_many :team_attendances
+  has_many :games, through: :team_attendances
+
   validates :name, :location, presence: true
   validates :name, uniqueness: true
+ 
+  def captain
+    members.find_by(role: :captain)
+  end
+
+  def manager
+    members.find_by(role: :manager)
+  end
+
+  def starters
+    members.where(role: :starter)
+  end
+
+  def alternates
+    members.where(role: :alternate)
+  end
+
+  # ids of all releavant peopel to this team
+  def all_member_ids
+    members.ids.compact.uniq
+  end
+
+  # check if user is 
+  def is_key_person?(user)
+    return false unless user.is_a? User
+    (members.where(role: [:captain, :manager]).ids + [user_id]).include?(user.id)
+  end
 end

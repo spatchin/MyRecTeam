@@ -16,13 +16,9 @@ gem 'haml-rails'
 gem 'pundit'
 gem 'font-awesome-rails'
 gem 'bootstrap_form'
-gem 'd3-rails'
 gem 'jquery-datatables-rails'
-gem 'select2-rails'
-gem 'morrisjs-rails'
 gem 'raphael-rails'
 gem 'local_time'
-gem 'activerecord-import', '>= 0.2.0'
 gem 'annotate'
 
 group :development do
