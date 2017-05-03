@@ -15,8 +15,15 @@
 #  index_members_on_user_id  (user_id)
 #
 
-require 'rails_helper'
+describe Member do
+  let!(:member) { create(:member) }
 
-RSpec.describe Member, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { member }
+
+  it { should belong_to(:user) }
+  it { should belong_to(:team) }
+
+  it { should define_enum_for(:role) }
+
+  it { should validate_presence_of(:role) }
 end

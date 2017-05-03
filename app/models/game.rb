@@ -23,5 +23,4 @@ class Game < ApplicationRecord
   has_many :teams, through: :team_attendances
 
   validates :name, presence: true
-  validates :name, uniqueness: true
 end

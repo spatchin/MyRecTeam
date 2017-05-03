@@ -18,8 +18,20 @@
 #  index_teams_on_user_id  (user_id)
 #
 
-require 'rails_helper'
+describe Team do
+  let!(:team) { create(:team) }
 
-RSpec.describe Team, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { team }
+
+  it { should belong_to(:created_by) }
+
+  it { should have_many(:members) }
+  it { should have_many(:users) }
+  it { should have_many(:team_attendances) }
+  it { should have_many(:games) }
+
+  it { should validate_presence_of(:name) }
+  it { should validate_presence_of(:location) }
+
+  it { should validate_uniqueness_of(:name) }
 end

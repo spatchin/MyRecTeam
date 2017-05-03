@@ -15,8 +15,8 @@
 #  last_sign_in_ip        :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  name                   :string
-#  username               :string
+#  first_name             :string
+#  last_name              :string
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -47,11 +47,14 @@ class User < ApplicationRecord
   has_many :members
   has_many :teams, through: :members
 
-  has_many :attendence_records, class_name: 'UserAttendance'
-  has_many :games, through: :attendence_records
+  has_many :attendance_records, class_name: 'UserAttendance'
+  has_many :team_attendance_records, through: :attendance_records, class_name: 'TeamAttendance'
 
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, if: :new_record?
+
+  validates :role, :first_name, :last_name, :email, presence: true
+  validates :email, uniqueness: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -61,5 +64,4 @@ class User < ApplicationRecord
   def set_default_role
     self.role ||= :user
   end
-  
 end

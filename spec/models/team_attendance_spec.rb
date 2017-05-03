@@ -15,8 +15,18 @@
 #  index_team_attendances_on_team_id  (team_id)
 #
 
-require 'rails_helper'
+describe TeamAttendance do
+  let!(:team_attendance) { create(:team_attendance) }
 
-RSpec.describe TeamAttendance, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { team_attendance }
+
+  it { should belong_to(:game) }
+  it { should belong_to(:team) }
+
+  it { should have_many(:user_attendances) }
+  it { should have_many(:players) }
+
+  it { should define_enum_for(:status) }
+
+  it { should validate_presence_of(:status) }
 end

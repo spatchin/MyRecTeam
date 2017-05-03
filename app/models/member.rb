@@ -22,6 +22,8 @@ class Member < ApplicationRecord
   enum role: [:captain, :manager, :starter, :alternate]
   after_initialize :set_default_role, if: :new_record?
 
+  validates :role, presence: true
+
   def set_default_role
     self.role ||= :starter
   end

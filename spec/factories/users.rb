@@ -15,8 +15,8 @@
 #  last_sign_in_ip        :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  name                   :string
-#  username               :string
+#  first_name             :string
+#  last_name              :string
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -41,15 +41,19 @@
 #
 
 FactoryGirl.define do
-  factory :user do
-    confirmed_at Time.now
-    name "Test User"
-    email "test@example.com"
-    password "please123"
+  factory :user, aliases: [:created_by] do
+    first_name { Faker::Name.unique.first_name }
+    last_name { Faker::Name.unique.last_name }
+    email { "#{first_name[0] + last_name}@email.com" }
+    password 'secret'
+    password_confirmation 'secret'
 
-    trait :admin do
-      role 'admin'
+    factory :admin_user do
+      email 'admin@email.com'
+      first_name 'Admin'
+      last_name 'User'
+      role :admin
     end
-
   end
 end
+

@@ -20,11 +20,13 @@ class TeamAttendance < ApplicationRecord
   belongs_to :game
   belongs_to :team
 
-  has_many :user_attendences
-  has_many :players, through: :user_attendences, class_name: 'User'
+  has_many :user_attendances
+  has_many :players, through: :user_attendances, class_name: 'User'
 
   enum status: [:upcoming, :inprogress, :complete]
   after_initialize :set_default_role, if: :new_record?
+
+  validates :status, presence: true
 
   def set_default_role
     self.status ||= :upcoming

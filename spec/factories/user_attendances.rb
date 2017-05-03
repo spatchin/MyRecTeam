@@ -17,8 +17,9 @@
 
 FactoryGirl.define do
   factory :user_attendance do
-    team_attendance nil
-    user nil
-    status 1
+    team_attendance
+    user
+
+    status { UserAttendance.statuses.values.sample }
   end
 end
