@@ -15,8 +15,15 @@
 #  index_user_attendances_on_user_id             (user_id)
 #
 
-require 'rails_helper'
+describe UserAttendance do
+  let!(:user_attendance) { create(:user_attendance) }
 
-RSpec.describe UserAttendance, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { user_attendance }
+
+  it { should belong_to(:team_attendance) }
+  it { should belong_to(:user) }
+
+  it { should define_enum_for(:status) }
+
+  it { should validate_presence_of(:status) }
 end

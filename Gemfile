@@ -37,7 +37,8 @@ group :development, :test do
   gem 'sqlite3'
   gem 'byebug', platform: :mri
   gem 'factory_girl_rails'
-  gem 'faker', git: 'https://github.com/stympy/faker.git'
+  gem 'faker'
+  gem 'ffaker'
   gem 'rspec-rails'
 end
 

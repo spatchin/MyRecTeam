@@ -20,9 +20,12 @@
 
 FactoryGirl.define do
   factory :team do
-    name "MyString"
-    wins 1
-    losses 1
-    draws 1
+    created_by
+
+    name { FFaker::HipsterIpsum.word }
+    wins { rand(1..10) }
+    losses { rand(1..10) }
+    draws { rand(1..10) }
+    location { ['Madison, WI', 'Verona, WI'].sample }
   end
 end

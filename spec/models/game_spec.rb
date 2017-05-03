@@ -16,8 +16,15 @@
 #  index_games_on_user_id  (user_id)
 #
 
-require 'rails_helper'
+describe Game do
+  let!(:game) { create(:game) }
 
-RSpec.describe Game, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { game }
+
+  it { should belong_to(:created_by) }
+
+  it { should have_many(:team_attendances) }
+  it { should have_many(:teams) }
+
+  it { should validate_presence_of(:name) }
 end

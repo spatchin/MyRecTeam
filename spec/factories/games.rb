@@ -18,9 +18,11 @@
 
 FactoryGirl.define do
   factory :game do
-    name "MyString"
-    time "2017-04-28 18:30:29"
-    location "MyString"
-    notes "MyText"
+    created_by
+
+    name { FFaker::Sport.name } 
+    time { FFaker::Time.datetime }
+    location { ['Madison, WI', 'Verona, WI'].sample }
+    notes { FFaker::Lorem.paragraph }
   end
 end

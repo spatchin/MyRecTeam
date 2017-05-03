@@ -17,8 +17,9 @@
 
 FactoryGirl.define do
   factory :member do
-    user nil
-    team nil
-    role 1
+    user
+    team
+
+    role { Member.roles.values.sample }
   end
 end

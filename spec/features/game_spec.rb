@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 # The main context for testing will be non-admins.
 # Having an admin context ensures that an admin has all privileges necessary to
 # view, correct, or remove data
@@ -9,7 +7,7 @@ feature 'Game' do
   context 'Admin' do
   end
   
-  context 'Regular user' 
+  context 'Regular user' do
     scenario "as team captain can set games to time and location"
     scenario "as team captain can set games to type (soccer, softball, etc)"
     scenario "can report their attendance"

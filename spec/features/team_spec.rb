@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 # The main context for testing will be non-admins.
 # Having an admin context ensures that an admin has all privileges necessary to
 # view, correct, or remove data

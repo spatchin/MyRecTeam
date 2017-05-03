@@ -15,8 +15,8 @@
 #  last_sign_in_ip        :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  name                   :string
-#  username               :string
+#  first_name             :string
+#  last_name              :string
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -41,15 +41,23 @@
 #
 
 describe User do
+  let!(:user) { create(:user) }
 
-  before(:each) { @user = User.new(email: 'user@example.com') }
+  subject { user }
 
-  subject { @user }
+  it { should have_many(:created_games) }
+  it { should have_many(:created_teams) }
+  it { should have_many(:members) }
+  it { should have_many(:teams) }
+  it { should have_many(:attendance_records) }
+  it { should have_many(:team_attendance_records) }
 
-  it { should respond_to(:email) }
+  it { should define_enum_for(:role) }
 
-  it "#email returns a string" do
-    expect(@user.email).to match 'user@example.com'
-  end
+  it { should validate_presence_of(:role) }
+  it { should validate_presence_of(:first_name) }
+  it { should validate_presence_of(:last_name) }
+  it { should validate_presence_of(:email) }
 
+  it { should validate_uniqueness_of(:email).case_insensitive }
 end

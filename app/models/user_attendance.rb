@@ -23,6 +23,8 @@ class UserAttendance < ApplicationRecord
   enum status: [:unreported, :absent, :attended]
   after_initialize :set_default_role, if: :new_record?
 
+  validates :status, presence: true
+
   def set_default_role
     self.status ||= :unreported
   end
