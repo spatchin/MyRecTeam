@@ -23,4 +23,14 @@ class Game < ApplicationRecord
   has_many :teams, through: :team_attendances
 
   validates :name, presence: true
+
+  def is_player?(user)
+    return false unless user.is_a? User
+    team_attendances.players.include?(user)
+  end
+
+  def created_by?(user)
+    return false unless user.is_a? User
+    created_by == user
+  end
 end

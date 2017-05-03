@@ -11,36 +11,40 @@
         %h3.panel-title Details
       .panel-body
         %p
-          %strong Name:
-          = @game.name
-        %p
-          %strong Notes:
-          = @game.notes
-        %p
           %strong Time:
-          = @game.time
+          = local_time @game.time
         %p
           %strong Location:
           = @game.location
+        %p
+          %strong Notes:
+          = @game.notes
   .col-sm-6
     .panel.panel-info
       .panel-heading
         %h3.panel-title Score
       .panel-body
-        %p
-          %strong Captain:
-          = @team.name
-        %p
-          %strong Manager:
-          = @team.name
-        %p
-          %strong Starters:
-          = @team.starters.pluck(:name).to_sentence
-        %p
-          %strong Alternates:
-          = @team.alternates.pluck(:name).to_sentence
+
 
 .panel.panel-success
   .panel-heading
     %h2.panel-title Teams
   .panel-body
+    .row
+    - @teams.each do |t|
+      .col-sm-6
+        %p
+          %strong Team:
+          = t.name
+        %p
+          %strong Captain:
+          = t.captain.try(:name)
+        %p
+          %strong Manager:
+          = t.manager.try(:name)
+        %p
+          %strong Starters:
+          = t.starters.pluck(:name).to_sentence
+        %p
+          %strong Alternates:
+          = t.alternates.pluck(:name).to_sentence

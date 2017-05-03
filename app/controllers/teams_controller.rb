@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
 
   # GET /teams
@@ -68,7 +68,7 @@ class TeamsController < ApplicationController
   
   # Use callbacks to share common setup or constraints between actions.
   def set_resource
-    @team = Team.find(params[:id])
+    authorize @team = Team.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

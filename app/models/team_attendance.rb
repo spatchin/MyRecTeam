@@ -21,9 +21,9 @@ class TeamAttendance < ApplicationRecord
   belongs_to :team
 
   has_many :user_attendances
-  has_many :players, through: :user_attendances, class_name: 'User'
+  has_many :players, through: :user_attendances, source: :user
 
-  enum status: [:upcoming, :inprogress, :complete]
+  enum status: [:upcoming, :in_progress, :complete]
   after_initialize :set_default_role, if: :new_record?
 
   validates :status, presence: true
@@ -32,8 +32,11 @@ class TeamAttendance < ApplicationRecord
     self.status ||= :upcoming
   end
 
-  # TODO test this
   def attended_players
-    players.joins(:user_attendences).where(user_attendence: [status: :attended])
+    players.where(id: user_attendances.where(status: :attended).pluck(:user_id))
+  end
+
+  def absent_players
+    players.where(id: user_attendances.where(status: :absent).pluck(:user_id))
   end
 end

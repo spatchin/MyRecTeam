@@ -1,13 +1,13 @@
 class GamePolicy < ApplicationPolicy
-  class Scope < Scope
-    def resolve
-      if @user.admin?
-        scope.all
-      else
-        scope.where(created_by: @user)
-      end
-    end
-  end
+  # class Scope < Scope
+  #   def resolve
+  #     if @user.admin?
+  #       scope.all
+  #     else
+  #       scope.where(created_by: @user)
+  #     end
+  #   end
+  # end
 
   def index?
     true
@@ -18,22 +18,22 @@ class GamePolicy < ApplicationPolicy
   end
 
   def new?
-    true
+    @user
   end
 
   def create?
-    true
+    @user
   end
 
   def edit?
-    true
+    @user.try(:admin?) || @record.created_by?(@user)
   end
 
   def update?
-    true
+    edit?
   end
 
   def destroy?
-    true
+    @user.try(:admin?) || @record.created_by?(@user)
   end
 end

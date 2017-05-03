@@ -1,20 +1,20 @@
 class TeamPolicy < ApplicationPolicy
-  class Scope < Scope
-    def resolve
-      if @user.admin?
-        scope.all
-      else
-        scope.where(created_by: @user)
-      end
-    end
-  end
+  # class Scope < Scope
+  #   def resolve
+  #     if @user.admin?
+  #       scope.all
+  #     else
+  #       scope.where(created_by: @user)
+  #     end
+  #   end
+  # end
 
   def index?
     true
   end
 
   def show?
-    @user.try(:admin?) || @record.all_member_ids.includes?(@user.try(:id))
+    true
   end
 
   def new?
@@ -34,6 +34,6 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def destroy?
-    @user.try(:admin?) || @record.created_by == @user
+    @user.try(:admin?) || @record.created_by?(@user)
   end
 end

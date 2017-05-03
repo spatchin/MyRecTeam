@@ -14,7 +14,7 @@
       %tbody
         - @teams.each do |team|
           %tr
-            %td= current_user ? link_to(team.name, team) : team.name
+            %td= link_to(team.name, team)
             %td= team.location
             %td
               = link_to 'Edit', edit_team_path(team) if policy(team).edit?

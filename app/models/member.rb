@@ -24,6 +24,9 @@ class Member < ApplicationRecord
 
   validates :role, presence: true
 
+  # validate only one captain
+  validates :user_id, uniqueness: { conditions: -> { where(role: :captain) }, scope: :team_id }
+
   def set_default_role
     self.role ||= :starter
   end

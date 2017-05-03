@@ -51,9 +51,14 @@ class Team < ApplicationRecord
     members.ids.compact.uniq
   end
 
-  # check if user is 
+  # check if user is a key person 
   def is_key_person?(user)
     return false unless user.is_a? User
-    (members.where(role: [:captain, :manager]).ids + [user_id]).include?(user.id)
+    members.where(role: [:captain, :manager]).include?(user)
   end
+
+  def created_by?(user)
+    return false unless user.is_a? User
+    created_by == user
+  end    
 end
