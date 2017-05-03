@@ -25,5 +25,22 @@
   .col-sm-6
     .panel.panel-info
       .panel-heading
-        %h3.panel-title Image
+        %h3.panel-title Score
       .panel-body
+        %p
+          %strong Captain:
+          = @team.name
+        %p
+          %strong Manager:
+          = @team.name
+        %p
+          %strong Starters:
+          = @team.starters.pluck(:name).to_sentence
+        %p
+          %strong Alternates:
+          = @team.alternates.pluck(:name).to_sentence
+
+.panel.panel-success
+  .panel-heading
+    %h2.panel-title Teams
+  .panel-body

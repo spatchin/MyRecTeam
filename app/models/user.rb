@@ -47,6 +47,9 @@ class User < ApplicationRecord
   has_many :members
   has_many :teams, through: :members
 
+  has_many :attendence_records, class_name: 'UserAttendance'
+  has_many :games, through: :attendence_records
+
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, if: :new_record?
 
