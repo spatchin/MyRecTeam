@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_resource, only: [:show, :edit, :update, :destroy]
+  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_resource, except: [:show, :edit, :update, :destroy]
 
   # GET /games
   # GET /games.json
@@ -67,7 +68,7 @@ class GamesController < ApplicationController
   private
   
   # Use callbacks to share common setup or constraints between actions.
-  def set_resource
+  def set_and_authorize_resource
     authorize @game = Game.find(params[:id])
   end
 

@@ -1,8 +1,9 @@
 - content_for :pagetitle do
   %h1 Team: #{@team.name}
 - content_for :itembar do
-  = link_to 'Edit', edit_team_path(@team), class: 'btn btn-default' if policy(@team).edit?
   = link_to 'Back', teams_path, class: 'btn btn-default' if policy(@team).index?
+  = link_to 'Edit', edit_team_path(@team), class: 'btn btn-default' if policy(@team).edit?
+  = link_to 'Delete', @team, method: :delete, 'data-confirm': 'Are you sure?', class: 'btn btn-danger' if policy(@team).destroy?
 
 .row
   .col-sm-6
@@ -26,7 +27,7 @@
       .panel-body
         %p
           %strong Captain:
-          = @team.name
+          = @team.captain.try(:display_name)
         %p
           %strong Starters:
           = @team.starters.pluck(:name).to_sentence

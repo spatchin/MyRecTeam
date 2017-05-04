@@ -1,6 +1,7 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_resource, only: [:show, :edit, :update, :destroy]
+  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_resource, except: [:show, :edit, :update, :destroy]
 
   # GET /teams
   # GET /teams.json
@@ -27,10 +28,11 @@ class TeamsController < ApplicationController
   def create
     @team = Team.new(resource_params)
     @team.created_by = current_user
-    @team.captain = current_user
 
     respond_to do |format|
       if @team.save
+        @team.members.create!(user: current_user, role: :captain)
+    
         format.html { redirect_to @team, notice: 'Team was successfully created.' }
         format.json { render :show, status: :created, location: @team }
       else
@@ -67,7 +69,7 @@ class TeamsController < ApplicationController
   private
   
   # Use callbacks to share common setup or constraints between actions.
-  def set_resource
+  def set_and_authorize_resource
     authorize @team = Team.find(params[:id])
   end
 

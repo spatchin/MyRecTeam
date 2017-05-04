@@ -31,15 +31,15 @@ class Team < ApplicationRecord
   validates :name, uniqueness: true
  
   def captain
-    members.find_by(role: :captain)
+    members.find_by(role: :captain).try(:user)
   end
 
   def starters
-    members.where(role: :starter)
+    User.where(id: members.where(role: :starter).pluck(:user_id))
   end
 
   def alternates
-    members.where(role: :alternate)
+    User.where(id: members.where(role: :alternate).pluck(:user_id))
   end
 
   # ids of all releavant peopel to this team
@@ -50,11 +50,11 @@ class Team < ApplicationRecord
   # check if user is a key person 
   def is_key_person?(user)
     return false unless user.is_a? User
-    members.where(role: :captain).include?(user)
+    (members.where(role: :captain).ids + [user_id]).include?(user)
   end
 
   def created_by?(user)
     return false unless user.is_a? User
     created_by == user
-  end    
+  end  
 end
