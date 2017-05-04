@@ -1,38 +1,38 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized
+  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_resource, except: [:show, :edit, :update, :destroy]
 
   def index
     @users = User.all
-    authorize User
+  end
+
+  def edit
   end
 
   def show
-    @user = User.find(params[:id])
-    authorize @user
   end
 
   def update
-    @user = User.find(params[:id])
-    authorize @user
-    if @user.update_attributes(secure_params)
-      redirect_to users_path, :notice => "User updated."
+    if @user.update_attributes(resource_params)
+      redirect_to users_path, notice: "User updated."
     else
-      redirect_to users_path, :alert => "Unable to update user."
+      redirect_to users_path, alert: "Unable to update user."
     end
   end
 
   def destroy
-    user = User.find(params[:id])
-    authorize user
     user.destroy
-    redirect_to users_path, :notice => "User deleted."
+    redirect_to users_path, notice: "User deleted."
   end
 
   private
 
-  def secure_params
-    params.require(:user).permit(:role)
+  def set_and_authorize_resource 
+    authorize @user = User.find(params[:id])
   end
 
+  def resource_params
+    params.require(:user).permit(:role, :first_name, :last_name, :username, :email)
+  end
 end

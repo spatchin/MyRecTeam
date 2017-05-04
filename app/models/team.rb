@@ -34,10 +34,6 @@ class Team < ApplicationRecord
     members.find_by(role: :captain)
   end
 
-  def manager
-    members.find_by(role: :manager)
-  end
-
   def starters
     members.where(role: :starter)
   end
@@ -54,7 +50,7 @@ class Team < ApplicationRecord
   # check if user is a key person 
   def is_key_person?(user)
     return false unless user.is_a? User
-    members.where(role: [:captain, :manager]).include?(user)
+    members.where(role: :captain).include?(user)
   end
 
   def created_by?(user)

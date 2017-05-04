@@ -17,6 +17,7 @@
 #  updated_at             :datetime         not null
 #  first_name             :string
 #  last_name              :string
+#  username               :string
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -44,12 +45,14 @@ FactoryGirl.define do
   factory :user, aliases: [:created_by] do
     first_name { Faker::Name.unique.first_name }
     last_name { Faker::Name.unique.last_name }
-    email { "#{first_name[0] + last_name}@email.com" }
+    username { "#{(first_name[0] + last_name).downcase}" }
+    email { "#{username}@email.com" }
     password 'secret'
     password_confirmation 'secret'
 
     factory :admin_user do
       email 'admin@email.com'
+      username 'admin'
       first_name 'Admin'
       last_name 'User'
       role :admin

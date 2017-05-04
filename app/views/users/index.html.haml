@@ -1,6 +1,24 @@
-.container
-  .row
-    %h3 Users
-    .column
-      %table.table
-        %tbody= render @users
+- content_for :pagetitle do
+  %h1 Users
+
+%table.table.table-striped#users{style: 'width: 100%;'}
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Role
+      %th Actions
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= link_to user.display_name, user
+        %td= user.email
+        %td
+          - if policy(user).update?
+            = bootstrap_form_for user, layout: :inline do |f|
+              = f.select :role, User.roles.keys.map {|role| [role.titleize,role]}, {hide_label: true}, {class: 'input-sm'}
+              = f.submit 'Change Role', class: 'btn btn-default btn-sm'
+          - else
+            = user.role
+        %td
+          = link_to 'Destroy', user, method: :delete, 'data-confirm': 'Are you sure?' if policy(user).destroy?

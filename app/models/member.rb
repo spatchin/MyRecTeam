@@ -19,7 +19,7 @@ class Member < ApplicationRecord
   belongs_to :user
   belongs_to :team
 
-  enum role: [:captain, :manager, :starter, :alternate]
+  enum role: [:captain, :starter, :alternate]
   after_initialize :set_default_role, if: :new_record?
 
   validates :role, presence: true

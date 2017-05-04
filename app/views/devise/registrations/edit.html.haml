@@ -5,8 +5,10 @@
         %h1.panel-title Edit #{resource_name.to_s.humanize}
       .panel-body
         = bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, role: 'form'}) do |f|
-          = f.text_field :name, autofocus: true
-          = f.email_field :email
+          = f.email_field :email, autofocus: true
+          = f.text_field :username, required: true
+          = f.text_field :first_name, required: true
+          = f.text_field :last_name, required: true
           - if devise_mapping.confirmable? && resource.pending_reconfirmation?
             %div
               Currently waiting confirmation for: #{resource.unconfirmed_email}
@@ -17,7 +19,7 @@
           %fieldset
             %p You must enter your current password to make changes.
             = f.password_field :current_password
-          = f.submit 'Update', class: 'btn btn-success btn-block'
+          = f.submit 'Update info', class: 'btn btn-success btn-block'
   .col-md-offset-4.col-md-4
     .panel.panel-default
       .panel-heading

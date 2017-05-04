@@ -40,9 +40,6 @@
           %strong Captain:
           = t.captain.try(:name)
         %p
-          %strong Manager:
-          = t.manager.try(:name)
-        %p
           %strong Starters:
           = t.starters.pluck(:name).to_sentence
         %p

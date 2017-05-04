@@ -8,6 +8,6 @@
 if Rails.env.development?
   User.destroy_all
 
-  p u = User.create!(email: 'admin@glbrc.org', username: 'admin', name: 'admin user', role: 'admin', password: 'secret', password_confirmation: 'secret')
+  p u = FactoryGirl.create(:admin_user)
   u.confirm
 end

@@ -17,6 +17,7 @@
 #  updated_at             :datetime         not null
 #  first_name             :string
 #  last_name              :string
+#  username               :string
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
@@ -53,8 +54,8 @@ class User < ApplicationRecord
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, if: :new_record?
 
-  validates :role, :first_name, :last_name, :email, presence: true
-  validates :email, uniqueness: true
+  validates_presence_of :role, :first_name, :last_name, :username
+  validates_uniqueness_of :username
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -63,5 +64,9 @@ class User < ApplicationRecord
 
   def set_default_role
     self.role ||= :user
+  end
+
+  def display_name
+    "#{first_name} #{last_name}"
   end
 end

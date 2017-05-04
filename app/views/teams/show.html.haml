@@ -28,9 +28,6 @@
           %strong Captain:
           = @team.name
         %p
-          %strong Manager:
-          = @team.name
-        %p
           %strong Starters:
           = @team.starters.pluck(:name).to_sentence
         %p

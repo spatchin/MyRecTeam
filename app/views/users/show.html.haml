@@ -1,5 +1,21 @@
-%h3 User
-%p
-  Name: #{@user.name if @user.name}
-%p
-  Email: #{@user.email if @user.email}
+- content_for :pagetitle do
+  %h1 User: #{@user.display_name}
+
+- content_for :itembar do
+  = link_to 'Edit', edit_user_path(@user), class: 'btn btn-default' if policy(@user).edit?
+  = link_to 'Edit', edit_user_registration_path, class: 'btn btn-default' if !policy(@user).edit?
+  = link_to 'Back', :back, class: 'btn btn-default'
+
+.row
+  .col-sm-6
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title User details
+      .panel-body
+        %p
+          %strong Name:
+          = @user.display_name
+        %p
+          %strong Email:
+          = @user.email
+  .col-sm-6
