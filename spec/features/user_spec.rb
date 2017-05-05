@@ -43,10 +43,21 @@ feature 'User' do
       expect(User.count).to eq 1
     end
 
-    scenario 'cannot view all users' do
+    scenario 'can view all users' do
       regular_sign_in
       visit '/users'
-      expect(page).to have_content 'You are not authorized'
+      expect(page).to have_content 'Users'
+      expect(page).to have_content 'Username'
+    end
+
+    scenario 'can view all user profiles' do
+      regular_sign_in
+      other_user = create(:user)
+
+      visit '/users'
+      click_link other_user.display_name
+      expect(page).to have_content 'Profile'
+      expect(page).to have_content other_user.display_name
     end
 
     scenario 'cannot modify user attributes' do

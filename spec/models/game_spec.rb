@@ -27,5 +27,7 @@ describe Game do
   it { should have_many(:team_attendances) }
   it { should have_many(:teams) }
 
+  it { should define_enum_for(:status) }
+
   it { should validate_presence_of(:name) }
 end
