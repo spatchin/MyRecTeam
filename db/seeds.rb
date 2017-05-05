@@ -6,6 +6,8 @@ if Rails.env.development?
 
   p u = FactoryGirl.create(:admin_user)
   u.confirm
+  p uu = FactoryGirl.create(:user, email: 'user@email.com', first_name: 'Regular', last_name: 'User')
+  uu.confirm
 
   FactoryGirl.create_list(:team, 5)
   FactoryGirl.create_list(:game, 5)
