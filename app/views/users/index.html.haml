@@ -6,19 +6,10 @@
     %tr
       %th Name
       %th Email
-      %th Role
-      %th Actions
+      %th Username
   %tbody
     - @users.each do |user|
       %tr
-        %td= link_to user.display_name, user
+        %td= link_to user.display_name, (current_user.admin? ? user : profile_user_path(user))
         %td= user.email
-        %td
-          - if policy(user).update?
-            = bootstrap_form_for user, layout: :inline do |f|
-              = f.select :role, User.roles.keys.map {|role| [role.titleize,role]}, {hide_label: true}, {class: 'input-sm'}
-              = f.submit 'Change Role', class: 'btn btn-default btn-sm'
-          - else
-            = user.role
-        %td
-          = link_to 'Destroy', user, method: :delete, 'data-confirm': 'Are you sure?' if policy(user).destroy?
+        %td= user.username

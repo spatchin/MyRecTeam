@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20170503025653) do
     t.datetime "time"
     t.string   "location"
     t.text     "notes"
+    t.integer  "status"
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

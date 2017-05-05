@@ -12,5 +12,6 @@
           = f.text_field :username, required: true
           = f.text_field :first_name, required: true
           = f.text_field :last_name, required: true
+          = f.select :role, User.roles.keys.map {|r| [r.titleize, r]}
           = f.submit
 

@@ -22,14 +22,14 @@ class TeamAttendance < ApplicationRecord
 
   has_many :user_attendances
   has_many :players, through: :user_attendances, source: :user
-
-  enum status: [:upcoming, :in_progress, :complete]
-  after_initialize :set_default_role, if: :new_record?
+  
+  enum status: [:pending, :win, :lose, :draw, :forfeit]
+  after_initialize :set_default_status, if: :new_record?
 
   validates :status, presence: true
 
-  def set_default_role
-    self.status ||= :upcoming
+  def set_default_status
+    self.status ||= :pending
   end
 
   def attended_players

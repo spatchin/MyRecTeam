@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  root to: 'pages#home'
-  devise_for :users
-  resources :users
   resources :teams
   resources :games
+
+  devise_for :users
+  resources :users do
+    get :profile, on: :member
+  end
+  root to: 'pages#home'
 end

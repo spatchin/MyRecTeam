@@ -7,7 +7,7 @@ class UserPolicy
   end
 
   def index?
-    @current_user.admin?
+    true
   end
 
   def show?
@@ -24,5 +24,9 @@ class UserPolicy
 
   def destroy?
     @current_user.admin? && (@current_user != @user)
+  end
+
+  def profile?
+    true
   end
 end

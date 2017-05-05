@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_resource, except: [:show, :edit, :update, :destroy]
+  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :profile]
+  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :profile]
 
   def index
     @users = User.all
@@ -22,8 +22,11 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user.destroy
+    @user.destroy
     redirect_to users_path, notice: "User deleted."
+  end
+
+  def profile
   end
 
   private

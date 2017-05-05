@@ -7,6 +7,7 @@
 #  time       :datetime
 #  location   :string
 #  notes      :text
+#  status     :integer
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -21,8 +22,15 @@ class Game < ApplicationRecord
 
   has_many :team_attendances
   has_many :teams, through: :team_attendances
+  
+  enum status: [:pending, :in_progress, :complete]
+  after_initialize :set_default_status, if: :new_record?
 
-  validates :name, presence: true
+  validates :name, :status, presence: true
+
+  def set_default_status
+    self.status ||= :pending
+  end
 
   def is_player?(user)
     return false unless user.is_a? User

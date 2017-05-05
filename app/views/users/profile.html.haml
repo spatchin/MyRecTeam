@@ -1,0 +1,51 @@
+- content_for :pagetitle do
+  %h1 Profile for: #{@user.display_name}
+
+- content_for :itembar do
+  = link_to 'Edit', edit_user_registration_path, class: 'btn btn-default' if @user == current_user
+  = link_to 'Destroy', @user, class: 'btn btn-danger', method: :delete, 'data-confirm': 'Are you sure?' if policy(@user).destroy?
+  = link_to 'Back', users_path, class: 'btn btn-default'
+
+.row
+  .col-sm-6
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Info
+      .panel-body
+        %p
+          %strong Name:
+          = @user.display_name
+        %p
+          %strong Email:
+          = @user.email
+  .col-sm-6
+    .panel.panel-info
+      .panel-heading
+        %h3.panel-title Teams
+      .panel-body
+        - @user.members.each do |m|
+          %p
+            %strong= link_to m.team.name, m.team
+            %br
+            = m.role.titleize
+.panel.panel-success
+  .panel-heading
+    %h2.panel-title Games
+  .panel-body
+    %h3 Upcoming
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Time
+          %th Location
+      %tbody
+    %hr
+    %h3 Complete
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Time
+          %th Location
+      %tbody
