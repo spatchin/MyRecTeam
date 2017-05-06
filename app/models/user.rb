@@ -45,10 +45,10 @@ class User < ApplicationRecord
   has_many :created_games, class_name: 'Game'
   has_many :created_teams, class_name: 'Team'
 
-  has_many :members
+  has_many :members, dependent: :destroy
   has_many :teams, through: :members
 
-  has_many :attendance_records, class_name: 'UserAttendance'
+  has_many :attendance_records, class_name: 'UserAttendance', dependent: :destroy
   has_many :team_attendance_records, through: :attendance_records, class_name: 'TeamAttendance'
 
   enum role: [:user, :vip, :admin]

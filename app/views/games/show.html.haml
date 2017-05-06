@@ -31,17 +31,20 @@
     %h2.panel-title Teams
   .panel-body
     .row
-    - @teams.each do |t|
+    - @teams.each do |team|
       .col-sm-6
         %p
-          %strong Team:
-          = t.name
-        %p
           %strong Captain:
-          = t.captain.try(:name)
+          %ul
+            %li= link_to team.captain.try(:display_name), profile_user_path(team.captain)
         %p
           %strong Starters:
-          = t.starters.pluck(:name).to_sentence
+          %ul
+            - team.starters.each do |t|
+              %li= link_to t.display_name, profile_user_path(t)
         %p
           %strong Alternates:
-          = t.alternates.pluck(:name).to_sentence
+          %ul
+            - team.alternates.each do |t|
+              %li= link_to t.display_name, profile_user_path(t)
+

@@ -11,19 +11,19 @@ class UserPolicy
   end
 
   def show?
-    @current_user.admin? || (@current_user == @user)
+    @current_user.try(:admin?) || (@current_user == @user)
   end
 
   def edit?
-    @current_user.admin?
+    @current_user.try(:admin?)
   end
 
   def update?
-    @current_user.admin? || (@current_user == @user)
+    @current_user.try(:admin?) || (@current_user == @user)
   end
 
   def destroy?
-    @current_user.admin? && (@current_user != @user)
+    @current_user.try(:admin?) && (@current_user != @user)
   end
 
   def profile?

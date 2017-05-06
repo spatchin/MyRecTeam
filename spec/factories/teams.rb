@@ -22,10 +22,18 @@ FactoryGirl.define do
   factory :team do
     created_by
 
-    name { FFaker::HipsterIpsum.word }
+    name { Faker::Book.unique.title }
     wins { rand(1..10) }
     losses { rand(1..10) }
     draws { rand(1..10) }
     location { ['Madison, WI', 'Verona, WI'].sample }
+  
+    trait :with_members do
+      after(:create) do |prof, eval|
+        prof.members << create(:member, role: :captain, team: prof)
+        5.times { prof.members << create(:member, role: :starter, team: prof) }
+        3.times { prof.members << create(:member, role: :alternate, team: prof) }
+      end
+    end
   end
 end
