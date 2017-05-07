@@ -28,11 +28,10 @@ class TeamsController < ApplicationController
   def create
     @team = Team.new(resource_params)
     @team.created_by = current_user
+    @team.captain = current_user
 
     respond_to do |format|
       if @team.save
-        @team.members.create!(user: current_user, role: :captain)
-    
         format.html { redirect_to @team, notice: 'Team was successfully created.' }
         format.json { render :show, status: :created, location: @team }
       else

@@ -19,13 +19,10 @@ class Member < ApplicationRecord
   belongs_to :user
   belongs_to :team
 
-  enum role: [:captain, :starter, :alternate]
+  enum role: [:starter, :alternate]
   after_initialize :set_default_role, if: :new_record?
 
   validates :role, presence: true
-
-  # validate only one captain
-  validates :user_id, uniqueness: { conditions: -> { where(role: :captain) }, scope: :team_id }
 
   def set_default_role
     self.role ||= :starter

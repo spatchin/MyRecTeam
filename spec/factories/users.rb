@@ -42,7 +42,7 @@
 #
 
 FactoryGirl.define do
-  factory :user, aliases: [:created_by] do
+  factory :user, aliases: [:created_by, :captain] do
     first_name { Faker::Name.unique.first_name }
     last_name { Faker::Name.unique.last_name }
     username { "#{(first_name[0] + last_name).downcase}" }

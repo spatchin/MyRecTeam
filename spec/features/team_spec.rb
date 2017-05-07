@@ -63,7 +63,9 @@ feature 'Team' do
       expect(new_team.captain).to eq user      
     end
     
-    scenario 'as team captains can add/remove players'
+    scenario 'as team captains can add/remove players' do
+      
+    end
 
     scenario 'can request to join teams'
     

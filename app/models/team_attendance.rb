@@ -20,7 +20,7 @@ class TeamAttendance < ApplicationRecord
   belongs_to :game
   belongs_to :team
 
-  has_many :user_attendances
+  has_many :user_attendances, dependent: :destroy
   has_many :players, through: :user_attendances, source: :user
   
   enum status: [:pending, :win, :lose, :draw, :forfeit]

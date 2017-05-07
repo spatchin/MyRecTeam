@@ -20,7 +20,7 @@
 class Game < ApplicationRecord
   belongs_to :created_by, class_name: 'User', foreign_key: 'user_id'
 
-  has_many :team_attendances
+  has_many :team_attendances, dependent: :destroy
   has_many :teams, through: :team_attendances
   
   enum status: [:pending, :in_progress, :complete]

@@ -44,9 +44,13 @@
 class User < ApplicationRecord
   has_many :created_games, class_name: 'Game'
   has_many :created_teams, class_name: 'Team'
+  has_many :captained_teams, class_name: 'Team', foreign_key: 'captain_id'
 
   has_many :members, dependent: :destroy
-  has_many :teams, through: :members
+  has_many :starting_members, -> { where(role: 'starter') }, class_name: 'Member'
+  has_many :alternate_members, -> { where(role: 'alternate') }, class_name: 'Member'
+  has_many :starting_teams, through: :starting_members, source: :team
+  has_many :alternate_teams, through: :alternate_members, source: :team
 
   has_many :attendance_records, class_name: 'UserAttendance', dependent: :destroy
   has_many :team_attendance_records, through: :attendance_records, class_name: 'TeamAttendance'
