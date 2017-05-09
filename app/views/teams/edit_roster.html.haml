@@ -38,7 +38,6 @@
             = hidden_field_tag "team[roster][player_ids][]", m.user_id
             = select_tag "team[roster][roles][]", options_for_select([['Starter', 'starter'], ['Alternate', 'alternate']], m.role), class: 'form-control'
           .col-sm-1
-            = link_to fa_icon('trash lg'), '#', class: 'btn btn-danger'
+            = link_to fa_icon('trash lg'), remove_player_team_path(@team, team: {roster: {player_ids: [m.user_id]}}), method: :post, class: 'btn btn-danger' if policy(@team).remove_player? && !m.captain?
     .panel-footer
       = submit_tag 'Save', class: 'btn btn-primary'
-/ link trash button to js function to remove select row from form

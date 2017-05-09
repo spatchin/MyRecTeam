@@ -35,7 +35,9 @@ class Team < ApplicationRecord
   has_many :games, through: :team_attendances
 
   validates :name, :location, presence: true
+  validates_presence_of :captain
   validates :name, uniqueness: true
+
 
   # ids of all releavant peopel to this team
   def all_member_ids

@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :edit_roster, :update_roster]
-  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :edit_roster, :update_roster]
+  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :remove_player]
+  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :remove_player]
 
   # GET /teams
   # GET /teams.json
@@ -78,8 +78,6 @@ class TeamsController < ApplicationController
           m.update(role: role) if Member.roles.keys.include?(role)
         end
       end
-    when 'remove_player'
-
     end
 
     respond_to do |format|
@@ -96,6 +94,14 @@ class TeamsController < ApplicationController
       format.html { redirect_to teams_url, notice: 'Team was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def remove_player
+    removed_member = @team.members.find_by(user_id: resource_params.dig(:roster, :player_ids).try(:first))
+    return redirect_to edit_roster_team_url(@team), alert: 'User could not be removed.' unless removed_member.present?
+
+    @team.members.destroy(removed_member)
+    redirect_to edit_roster_team_url(@team), notice: 'User was successfully removed.'
   end
 
   private

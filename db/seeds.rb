@@ -14,8 +14,7 @@ if Rails.env.development?
 
   5.times do
     users = FactoryGirl.create_list(:user, 10)
-    team = FactoryGirl.create(:team)
-    team.captain = users[0]
+    team = FactoryGirl.create(:team, captain: users[0])
     team.starters = users[0...5]
     team.alternates = users[5...10]
     team.save!

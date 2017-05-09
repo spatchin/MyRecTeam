@@ -44,4 +44,8 @@ class TeamPolicy < ApplicationPolicy
   def destroy?
     @user.try(:admin?) || @record.created_by?(@user)
   end
+
+  def remove_player?
+    update?
+  end
 end

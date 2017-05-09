@@ -8,8 +8,9 @@ feature 'Team' do
     let!(:user) { sign_in }
 
     scenario 'can modify all teams' do
-      team = create(:team, created_by: user)
-      other_team = create(:team)
+      team = create(:team, created_by: user, captain: user)
+      other_user = create(:user)
+      other_team = create(:team, created_by: other_user, captain: other_user)
 
       visit '/teams'
       expect(page).to have_content team.name
@@ -25,19 +26,21 @@ feature 'Team' do
       expect(Team.count).to eq 0
     end
   end
-  
+
   context 'Regular user' do
     let!(:user) { regular_sign_in }
 
     scenario 'can view all teams' do
-      team = create(:team)
+      other_user = create(:user)
+      team = create(:team, created_by: other_user, captain: other_user)
 
       visit '/teams'
       expect(page).to have_content team.name
     end
 
     scenario 'cannot modify teams' do
-      team = create(:team)
+      other_user = create(:user)
+      team = create(:team, created_by: other_user, captain: other_user)
 
       visit '/teams'
       click_link team.name
@@ -60,25 +63,25 @@ feature 'Team' do
       new_team = Team.last
       expect(new_team.name).to eq attributes[:name]
       expect(new_team.created_by).to eq user
-      expect(new_team.captain).to eq user      
+      expect(new_team.captain).to eq user
     end
-    
+
     scenario 'as team captains can add/remove players' do
-      
+
     end
 
     scenario 'can request to join teams'
-    
+
     scenario 'can have role on team'
-    
+
     scenario 'as team captains can invite users to join team'
-    
+
     scenario 'as team captains can assign users to team_roles (captain, starter, sub)'
-    
+
     scenario 'as team captains can edit team profile'
-    
+
     scenario 'as team captains can disband team'
-    
+
     scenario 'can edit but not modify count of wins/losses/draws for team'
   end
 end
