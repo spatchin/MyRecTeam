@@ -8,7 +8,7 @@
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
-#  sign_in_count          :integer          default("0"), not null
+#  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :string
@@ -30,7 +30,7 @@
 #  invitation_limit       :integer
 #  invited_by_type        :string
 #  invited_by_id          :integer
-#  invitations_count      :integer          default("0")
+#  invitations_count      :integer          default(0)
 #
 # Indexes
 #
@@ -56,6 +56,10 @@ FactoryGirl.define do
       first_name 'Admin'
       last_name 'User'
       role :admin
+    end
+
+    after(:build) do |prof, eval|
+      prof.skip_confirmation!
     end
   end
 end

@@ -33,7 +33,23 @@ class TeamPolicy < ApplicationPolicy
     edit?
   end
 
+  def edit_roster?
+    edit?
+  end
+
+  def update_roster?
+    update?
+  end
+
   def destroy?
     @user.try(:admin?) || @record.created_by?(@user)
+  end
+
+  def add_player?
+    update?
+  end
+
+  def remove_player?
+    update?
   end
 end

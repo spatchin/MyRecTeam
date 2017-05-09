@@ -8,7 +8,7 @@
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
-#  sign_in_count          :integer          default("0"), not null
+#  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :string
@@ -30,7 +30,7 @@
 #  invitation_limit       :integer
 #  invited_by_type        :string
 #  invited_by_id          :integer
-#  invitations_count      :integer          default("0")
+#  invitations_count      :integer          default(0)
 #
 # Indexes
 #
@@ -58,8 +58,8 @@ class User < ApplicationRecord
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, if: :new_record?
 
-  validates_presence_of :role, :first_name, :last_name, :username
-  validates_uniqueness_of :username
+  validates_presence_of :role, :first_name, :last_name, :username # email is validated by devise
+  validates_uniqueness_of :username # email is validated by devise
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  resources :teams
+  get '/members/accept_invite/', to: 'members#accept_invite', as: 'accept_invite_members'
+
+  resources :teams do
+  	get :edit_roster, on: :member
+  	patch :update_roster, on: :member
+    post :remove_player, on: :member
+    post :add_player, on: :member
+  end
   resources :games
 
   devise_for :users
