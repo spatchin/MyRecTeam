@@ -10,12 +10,13 @@
 
 .row
   .col-md-6
-    = bootstrap_form_tag url: update_roster_team_path(@team), layout: :horizontal, label_col: 'col-sm-2', control_col: 'col-sm-8' do |f|
+    = bootstrap_form_tag url: update_roster_team_path(@team), layout: :horizontal, label_col: 'col-sm-2', control_col: 'col-sm-8', method: :patch do |f|
       .panel.panel-warning
         .panel-heading
           %h3.panel-title Captain
         .panel-body
-          = f.select "captain", options_for_select(@team.players.map { |p| [p.display_name, p.id] })
+          = f.hidden_field 'subaction', value: 'update_captain'
+          = f.select "team[roster][captain_id]", options_for_select(@team.users.map { |p| [p.display_name, p.id] }, @team.captain.id.to_s), label: 'Captain'
         .panel-footer
           = f.submit
   .col-md-6
@@ -24,16 +25,18 @@
         %h3.panel-title Add new members
       .panel-body
 
-= form_tag update_roster_team_path(@team), class: 'form-horizontal' do
+= form_tag update_roster_team_path(@team), class: 'form-horizontal', method: :patch do
+  = hidden_field_tag 'subaction', 'update_players'
   .panel.panel-default
     .panel-heading
       %h3.panel-title Players
     .panel-body
-      - @team.members.each do |m|
-        .form-group
-          = label_tag "role[#{m.id}]", m.user.display_name, class: 'control-label col-sm-2'
-          .col-sm-9
-            = select_tag "role[#{m.id}]", options_for_select([['Starter', 'starter'], ['Alternate', 'alternate']], m.role), class: 'form-control'
+      - @team.members.order(:role).each do |m|
+        .form-group{id: "member-#{m.id}"}
+          = label_tag "team[roster][roles][]", m.user.display_name, class: 'control-label col-sm-3'
+          .col-sm-8
+            = hidden_field_tag "team[roster][player_ids][]", m.user_id
+            = select_tag "team[roster][roles][]", options_for_select([['Starter', 'starter'], ['Alternate', 'alternate']], m.role), class: 'form-control'
           .col-sm-1
             = link_to fa_icon('trash lg'), '#', class: 'btn btn-danger'
     .panel-footer

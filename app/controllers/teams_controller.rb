@@ -58,9 +58,34 @@ class TeamsController < ApplicationController
     end
   end
 
-
   def update_roster
+    case params[:subaction]
+    when 'update_captain'
+      if (captain_id = resource_params.dig(:roster, :captain_id)).present?
+        u = @team.users.find_by(id: captain_id)
+        return redirect_to edit_roster_team_url(@team), alert: 'Captain could not be found' if u.blank?
 
+        @team.update(captain: u)
+      end
+    when 'update_players'
+      player_ids = resource_params.dig(:roster, :player_ids)
+      player_roles = resource_params.dig(:roster, :roles)
+      if [player_ids, player_roles].all?(&:present?)
+        player_ids.zip(player_roles).each do |id, role|
+          m = @team.members.find_by(user_id: id)
+          return redirect_to edit_roster_team_url(@team), alert: 'Player could not be found' if m.blank?
+
+          m.update(role: role) if Member.roles.keys.include?(role)
+        end
+      end
+    when 'remove_player'
+
+    end
+
+    respond_to do |format|
+      format.html { redirect_to edit_roster_team_url(@team), notice: 'Team was successfully updated.' }
+      format.json { render :show, status: :ok, location: @team }
+    end
   end
 
   # DELETE /teams/1
@@ -74,7 +99,7 @@ class TeamsController < ApplicationController
   end
 
   private
-  
+
   # Use callbacks to share common setup or constraints between actions.
   def set_and_authorize_resource
     authorize @team = Team.find(params[:id])
@@ -82,6 +107,6 @@ class TeamsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def resource_params
-    params.require(:team).permit(:name, :description, :location)
+    params.require(:team).permit(:name, :description, :location, roster: [:captain_id, player_ids: [], roles: []])
   end
 end

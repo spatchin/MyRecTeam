@@ -12,12 +12,13 @@ if Rails.env.development?
   p uu = FactoryGirl.create(:user, email: 'user@email.com', first_name: 'Regular', last_name: 'User')
   uu.confirm
 
-  FactoryGirl.create_list(:team, 5,)
-  Team.first.captain = u
-  Team.all.each do |t|
-    t.captain = FactoryGirl.create(:user)
-    t.starters = FactoryGirl.create_list(:user, 5)
-    t.alternates = FactoryGirl.create_list(:user, 3)
+  5.times do
+    users = FactoryGirl.create_list(:user, 10)
+    team = FactoryGirl.create(:team)
+    team.captain = users[0]
+    team.starters = users[0...5]
+    team.alternates = users[5...10]
+    team.save!
   end
 
   FactoryGirl.create_list(:game, 5)
