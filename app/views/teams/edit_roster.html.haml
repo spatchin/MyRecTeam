@@ -20,11 +20,14 @@
         .panel-footer
           = f.submit
   .col-md-6
-    .panel.panel-info
-      .panel-heading
-        %h3.panel-title Add new members
-      .panel-body
-
+    = bootstrap_form_tag url: add_player_team_path(@team), layout: :horizontal, label_col: 'col-sm-2', control_col: 'col-sm-8' do |f|
+      .panel.panel-info
+        .panel-heading
+          %h3.panel-title Add new members
+        .panel-body
+          = f.text_field 'team[email]', label: 'Email'
+        .panel-footer
+          = f.submit 'Send invite'
 = form_tag update_roster_team_path(@team), class: 'form-horizontal', method: :patch do
   = hidden_field_tag 'subaction', 'update_players'
   .panel.panel-default
@@ -36,7 +39,10 @@
           = label_tag "team[roster][roles][]", m.user.display_name, class: 'control-label col-sm-3'
           .col-sm-8
             = hidden_field_tag "team[roster][player_ids][]", m.user_id
-            = select_tag "team[roster][roles][]", options_for_select([['Starter', 'starter'], ['Alternate', 'alternate']], m.role), class: 'form-control'
+            - if m.accepted?
+              = select_tag "team[roster][roles][]", options_for_select([['Starter', 'starter'], ['Alternate', 'alternate']], m.role), class: 'form-control'
+            - else
+              = select_tag "team[roster][roles][]", options_for_select(['Waiting to accept invite']), disabled: true, class: 'form-control'
           .col-sm-1
             = link_to fa_icon('trash lg'), remove_player_team_path(@team, team: {roster: {player_ids: [m.user_id]}}), method: :post, class: 'btn btn-danger' if policy(@team).remove_player? && !m.captain?
     .panel-footer

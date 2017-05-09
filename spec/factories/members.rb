@@ -2,13 +2,15 @@
 #
 # Table name: members
 #
-#  id         :integer          not null, primary key
-#  user_id    :integer
-#  team_id    :integer
-#  captain    :boolean          default("f")
-#  role       :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  user_id     :integer
+#  team_id     :integer
+#  captain     :boolean          default(FALSE)
+#  role        :integer
+#  accepted_at :datetime
+#  token       :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 # Indexes
 #

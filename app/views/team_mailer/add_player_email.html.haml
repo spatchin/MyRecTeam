@@ -1,0 +1,5 @@
+%p= "#{@user.display_name},"
+%p
+  #{@team.captain.display_name} has invited you to join team #{@team.name}.  Click the link belong to accept the invitation.
+%p
+  = link_to 'Accept Invitation', @path, method: :patch, class: 'btn btn-lg btn-success'

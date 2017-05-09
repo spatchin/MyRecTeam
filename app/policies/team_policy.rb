@@ -45,6 +45,10 @@ class TeamPolicy < ApplicationPolicy
     @user.try(:admin?) || @record.created_by?(@user)
   end
 
+  def add_player?
+    update?
+  end
+
   def remove_player?
     update?
   end

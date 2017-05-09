@@ -31,6 +31,7 @@ group :development do
   gem 'html2haml'
   gem 'rails_layout'
   gem 'spring-commands-rspec'
+  gem "letter_opener"
 end
 
 group :development, :test do

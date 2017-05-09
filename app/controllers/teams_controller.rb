@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :remove_player]
-  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :remove_player]
+  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :add_player, :remove_player]
+  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :add_player, :remove_player]
 
   # GET /teams
   # GET /teams.json
@@ -96,6 +96,26 @@ class TeamsController < ApplicationController
     end
   end
 
+  def add_player
+    # create member or resend invite if member already exists
+    user = User.find_by(email: resource_params[:email].try(:strip).try(:downcase))
+
+    message = if user.blank?
+                'User could not be found.'
+              elsif @team.users.include?(user)
+                'User is already on the team.'
+              end
+    return redirect_to edit_roster_team_url(@team), alert: message if message
+
+    @team.alternates << user
+    member = @team.members.last
+
+    # send email with link that updates member accepted at
+    TeamMailer.add_player_email(accept_invite_members_url(token: member.token), @team, user).deliver_now # deliver_later
+
+    redirect_to edit_roster_team_url(@team), notice: 'User was invited.'
+  end
+
   def remove_player
     removed_member = @team.members.find_by(user_id: resource_params.dig(:roster, :player_ids).try(:first))
     return redirect_to edit_roster_team_url(@team), alert: 'User could not be removed.' unless removed_member.present?
@@ -113,6 +133,6 @@ class TeamsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def resource_params
-    params.require(:team).permit(:name, :description, :location, roster: [:captain_id, player_ids: [], roles: []])
+    params.require(:team).permit(:name, :description, :location, :email, roster: [:captain_id, player_ids: [], roles: []])
   end
 end

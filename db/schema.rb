@@ -27,10 +27,12 @@ ActiveRecord::Schema.define(version: 20170503025653) do
   create_table "members", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
-    t.boolean  "captain",    default: false
+    t.boolean  "captain",     default: false
     t.integer  "role"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "accepted_at"
+    t.string   "token"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.index ["team_id"], name: "index_members_on_team_id"
     t.index ["user_id"], name: "index_members_on_user_id"
   end

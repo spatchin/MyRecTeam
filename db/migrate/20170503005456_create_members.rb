@@ -5,6 +5,8 @@ class CreateMembers < ActiveRecord::Migration[5.0]
       t.belongs_to :team
       t.boolean :captain, default: false
       t.integer :role
+      t.datetime :accepted_at
+      t.string :token
 
       t.timestamps
     end
