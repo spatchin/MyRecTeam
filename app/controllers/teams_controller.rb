@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_resource, except: [:show, :edit, :update, :destroy]
+  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :edit_roster, :update_roster]
+  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :edit_roster, :update_roster]
 
   # GET /teams
   # GET /teams.json
@@ -21,6 +21,9 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/edit
   def edit
+  end
+
+  def edit_roster
   end
 
   # POST /teams
@@ -53,6 +56,11 @@ class TeamsController < ApplicationController
         format.json { render json: @team.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+
+  def update_roster
+
   end
 
   # DELETE /teams/1

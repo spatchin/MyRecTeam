@@ -58,8 +58,8 @@ class User < ApplicationRecord
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, if: :new_record?
 
-  validates_presence_of :role, :first_name, :last_name, :username
-  validates_uniqueness_of :username
+  validates_presence_of :role, :first_name, :last_name, :username # email is validated by devise
+  validates_uniqueness_of :username # email is validated by devise
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

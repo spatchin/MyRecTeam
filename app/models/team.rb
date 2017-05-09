@@ -25,6 +25,7 @@ class Team < ApplicationRecord
   belongs_to :captain, class_name: 'User'
 
   has_many :members, dependent: :destroy
+  has_many :users, through: :members
   has_many :starting_members, -> { where(role: 'starter') }, class_name: 'Member'
   has_many :alternate_members, -> { where(role: 'alternate') }, class_name: 'Member'
   has_many :starters, through: :starting_members, source: :user
@@ -56,5 +57,9 @@ class Team < ApplicationRecord
   def captain?(user)
     return false unless user.is_a? User
     captain == user
+  end
+
+  def players
+    User.where(id: users.ids << captain_id).order(:first_name)
   end
 end

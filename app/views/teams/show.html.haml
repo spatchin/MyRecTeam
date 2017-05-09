@@ -4,7 +4,6 @@
   = link_to 'Back', teams_path, class: 'btn btn-default' if policy(@team).index?
   = link_to 'Edit', edit_team_path(@team), class: 'btn btn-default' if policy(@team).edit?
   = link_to 'Delete', @team, method: :delete, 'data-confirm': 'Are you sure?', class: 'btn btn-danger' if policy(@team).destroy?
-
 .row
   .col-sm-6
     .panel.panel-default
@@ -51,6 +50,8 @@
         .row
           .col-xs-6
             %h3.panel-title Roster
+          .col-xs-6.text-right
+            = link_to fa_icon('edit lg'), edit_roster_team_path(@team)
       .panel-body
         %p
           %strong Captain:
