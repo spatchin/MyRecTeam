@@ -20,6 +20,7 @@ gem 'jquery-datatables-rails'
 gem 'raphael-rails'
 gem 'local_time'
 gem 'annotate'
+gem 'kaminari'
 
 group :development do
   gem 'web-console', '>= 3.3.0'

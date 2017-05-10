@@ -17,11 +17,13 @@ feature 'Team' do
       expect(page).to have_content other_team.name
 
       click_link team.name
+      click_link 'Edit'
       click_link 'Delete'
       expect(Team.count).to eq 1
 
       visit '/teams'
       click_link other_team.name
+      click_link 'Edit'
       click_link 'Delete'
       expect(Team.count).to eq 0
     end

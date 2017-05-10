@@ -22,10 +22,10 @@ class Team < ApplicationRecord
   belongs_to :created_by, class_name: 'User', foreign_key: 'user_id'
 
   has_many :members, dependent: :destroy
-  has_many :users, through: :members
   has_many :starting_members, -> { where(role: 'starter') }, class_name: 'Member'
   has_many :alternate_members, -> { where(role: 'alternate') }, class_name: 'Member'
   has_one :captain_member, -> { where(captain: true) }, class_name: 'Member'
+  has_many :users, through: :members
   has_many :starters, through: :starting_members, source: :user
   has_many :alternates, through: :alternate_members, source: :user
   has_one :captain, through: :captain_member, source: :user
@@ -35,7 +35,6 @@ class Team < ApplicationRecord
   has_many :games, through: :team_attendances
 
   validates :name, :location, presence: true
-  validates_presence_of :captain
   validates :name, uniqueness: true
 
 

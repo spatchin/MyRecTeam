@@ -12,8 +12,10 @@
           %th Time
           %th Location
       %tbody
-        - @games.each do |game|
-          %tr
-            %td= link_to(game.name, game)
-            %td= local_time game.time
-            %td= game.location
+        = render @games
+.row
+  .col-xs-4
+    .page-info{style: 'margin: 20px 0;'}
+      = page_entries_info @games
+  .col-xs-4.text-right
+    = paginate @games, remote: true

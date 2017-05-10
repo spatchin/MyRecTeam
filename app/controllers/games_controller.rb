@@ -6,7 +6,7 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = Game.all
+    @games = Game.all.page(params[:page])
   end
 
   # GET /games/1
@@ -66,7 +66,7 @@ class GamesController < ApplicationController
   end
 
   private
-  
+
   # Use callbacks to share common setup or constraints between actions.
   def set_and_authorize_resource
     authorize @game = Game.find(params[:id])

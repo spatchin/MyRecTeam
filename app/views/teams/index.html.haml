@@ -11,7 +11,10 @@
           %th Name
           %th Location
         %tbody
-        - @teams.each do |team|
-          %tr
-            %td= link_to(team.name, team)
-            %td= team.location
+          = render @teams
+.row
+  .col-xs-4
+    .page-info{style: 'margin: 20px 0;'}
+      = page_entries_info @teams
+  .col-xs-4.text-right
+    = paginate @teams, remote: true
