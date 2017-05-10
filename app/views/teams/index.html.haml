@@ -10,13 +10,8 @@
         %tr
           %th Name
           %th Location
-          %th Actions
-      %tbody
+        %tbody
         - @teams.each do |team|
           %tr
             %td= link_to(team.name, team)
             %td= team.location
-            %td
-              = link_to 'Edit', edit_team_path(team) if policy(team).edit?
-              = '|' if policy(team).edit? && policy(team).destroy?
-              = link_to 'Destroy', team, method: :delete, 'data-confirm': 'Are you sure?' if policy(team).destroy?

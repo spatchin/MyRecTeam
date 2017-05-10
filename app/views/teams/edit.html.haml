@@ -1,6 +1,7 @@
 - content_for :pagetitle do
   %h1 Editing Team
 - content_for :itembar do
+  = link_to 'Delete', @team, method: :delete, 'data-confirm': 'Are you sure?', class: 'btn btn-danger' if policy(@team).destroy?
   = link_to 'Back', :back, class: 'btn btn-default'
 
 = render 'form'

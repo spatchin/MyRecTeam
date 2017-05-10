@@ -1,6 +1,6 @@
 <%= @user.display_name %>,
 
-<%= @team.captain.name %> has invited you to join team <%= @team.name %>.
+<%= @team.captain.display_name %> has invited you to join team <%= @team.name %>.
 Click the link belong to accept the invitation.
 
 <%= link_to 'Accept Invitation', @path, method: :patch %>

@@ -11,14 +11,9 @@
           %th Name
           %th Time
           %th Location
-          %th Actions
       %tbody
         - @games.each do |game|
           %tr
             %td= link_to(game.name, game)
             %td= local_time game.time
             %td= game.location
-            %td
-              = link_to 'Edit', edit_game_path(game) if policy(game).edit?
-              = '|' if policy(game).edit? && policy(game).destroy?
-              = link_to 'Destroy', game, method: :delete, 'data-confirm': 'Are you sure?' if policy(game).destroy?

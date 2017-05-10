@@ -1,6 +1,7 @@
 - content_for :pagetitle do
   %h1 Editing Game
 - content_for :itembar do
-  = link_to 'Back', :back, class: 'btn btn-default'
+  = link_to 'Delete', @game, method: :delete, 'data-confirm': 'Are you sure?', class: 'btn btn-danger' if policy(@game).destroy?
+  = link_to 'Back', @game, class: 'btn btn-default'
 
 = render 'form'

@@ -28,6 +28,7 @@ class Member < ApplicationRecord
   after_initialize :set_default_role, if: :new_record?
 
   validates :role, presence: true
+  validates :user, uniqueness: { scope: :team }
 
   def set_default_role
     self.role ||= :starter
