@@ -22,11 +22,14 @@ class Game < ApplicationRecord
 
   has_many :team_attendances, dependent: :destroy
   has_many :teams, through: :team_attendances
-  
+
   enum status: [:pending, :in_progress, :complete]
   after_initialize :set_default_status, if: :new_record?
 
   validates :name, :status, presence: true
+  validate do |game|
+    errors.add(:teams, 'too many') if teams.count > 2
+  end
 
   def set_default_status
     self.status ||= :pending
@@ -40,5 +43,17 @@ class Game < ApplicationRecord
   def created_by?(user)
     return false unless user.is_a? User
     created_by == user
+  end
+
+  def score
+    ta1 = team_attendances[0]
+    ta2 = team_attendances[-1]
+    {ta1.team => ta1.score || 0, ta2.team => ta2.score || 0}
+  end
+
+  def display_score
+    ta1 = team_attendances[0]
+    ta2 = team_attendances[-1]
+    "#{ta1.team.name} - #{ta2.team.name}\n#{ta1.score || 0} - #{ta2.score || 0}"
   end
 end

@@ -4,7 +4,7 @@
 - content_for :itembar do
   = link_to 'Edit', edit_user_registration_path, class: 'btn btn-default' if @user == current_user
   = link_to 'Destroy', @user, class: 'btn btn-danger', method: :delete, 'data-confirm': 'Are you sure?' if policy(@user).destroy?
-  = link_to 'Back', users_path, class: 'btn btn-default'
+  = link_to 'Back', :back, class: 'btn btn-default'
 
 .row
   .col-sm-6
@@ -27,6 +27,7 @@
           %p
             %strong= link_to m.team.name, m.team
             %br
+            = '<strong>Captain</strong> /'.html_safe if m.captain?
             = m.role.titleize
 .panel.panel-success
   .panel-heading

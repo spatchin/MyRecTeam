@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170503025653) do
     t.integer  "game_id"
     t.integer  "team_id"
     t.integer  "status"
+    t.integer  "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_team_attendances_on_game_id"

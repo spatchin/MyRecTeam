@@ -6,6 +6,7 @@
 #  game_id    :integer
 #  team_id    :integer
 #  status     :integer
+#  score      :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

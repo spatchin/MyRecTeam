@@ -2,7 +2,7 @@
   %h1 Team: #{@team.name}
 - content_for :itembar do
   = link_to 'Edit', edit_team_path(@team), class: 'btn btn-default' if policy(@team).edit?
-  = link_to 'Back', teams_path, class: 'btn btn-default' if policy(@team).index?
+  = link_to 'Back', :back, class: 'btn btn-default' if policy(@team).index?
 
 .row
   .col-sm-6
