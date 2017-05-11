@@ -3,7 +3,10 @@
   .col-sm-offset-3.col-sm-6
     %p= "#{@user.display_name},"
     %p
-      #{@team.captain.display_name} has invited you to join team #{content_tag :strong, @team.name}.  Click the link belong to accept the invitation.
+      #{@team.captain.display_name} has invited you to join team #{content_tag :strong, @team.name} on RecTime.
     %hr
-    %p.text-center
-      = link_to 'Accept Invitation', @path, method: :patch, class: 'btn btn-lg btn-success'
+    .row
+      .col-md-6
+        = link_to 'Accept', @accept_link, method: :patch, class: 'btn btn-lg btn-success'
+      .col-md-6.text-right
+        = link_to 'Deny', @deny_link, method: :patch, class: 'btn btn-lg btn-danger'

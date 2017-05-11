@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get '/members/accept_invite/', to: 'members#accept_invite', as: 'accept_invite_members'
+  get '/members/deny_invite/', to: 'members#deny_invite', as: 'deny_invite_members'
 
   resources :teams do
   	get :edit_roster, on: :member

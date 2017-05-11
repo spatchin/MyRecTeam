@@ -7,6 +7,14 @@ class MembersController < ApplicationController
     redirect_to @member.team, notice: 'Invitation accepted.'
   end
 
+  def deny_invite
+    @member = Member.find_by(token: params[:token])
+    redirect_to root_url, alert: 'Invitation could not be denied.' if @member.blank?
+
+    @member.destroy
+    redirect_to root_url, notice: 'Invitation denied.'
+  end
+
   private
 
   def resource_params
