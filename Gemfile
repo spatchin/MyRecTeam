@@ -16,12 +16,9 @@ gem 'haml-rails'
 gem 'pundit'
 gem 'font-awesome-rails'
 gem 'bootstrap_form'
-gem 'jquery-datatables-rails'
-gem 'raphael-rails'
 gem 'local_time'
 gem 'annotate'
 gem 'kaminari'
-gem 'rename'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
