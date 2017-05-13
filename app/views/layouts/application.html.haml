@@ -1,27 +1,25 @@
 %html
   %head
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
-    %title= content_for?(:title) ? yield(:title) : 'RecTime'
+    %title= content_for?(:title) ? yield(:title) : 'MyRecTeam'
     %meta{name: "description", content: "#{content_for?(:description) ? yield(:description) : 'Growth Curve DB'}"}
     %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body{data: {controller: params[:controller], action: params[:action]}}
-    #wrapper
-      %header
-        = render 'layouts/navigation'
-      %main{role: "main"}
-        #page-wrapper
-          .container{style: 'padding: 0 5%;'}
-            - if content_for?(:pagetop)
-              .page-header= yield :pagetop
-            - elsif content_for?(:pagetitle) || content_for?(:itembar)
-              .page-header
-                .row
-                  .col-xs-6= yield :pagetitle if content_for?(:pagetitle)
-                  .col-xs-6#item-bar.text-right= yield :itembar if content_for?(:itembar)
-            = render 'layouts/messages'
-            = yield
+    %header
+      = render 'layouts/navigation'
+    %main{role: "main"}
+      .container
+        - if content_for?(:pagetop)
+          .page-header= yield :pagetop
+        - elsif content_for?(:pagetitle) || content_for?(:itembar)
+          .page-header
+            .row
+              .col-xs-6= yield :pagetitle if content_for?(:pagetitle)
+              .col-xs-6#item-bar.text-right= yield :itembar if content_for?(:itembar)
+        = render 'layouts/messages'
+        = yield
     %footer
       = render 'layouts/footer'
