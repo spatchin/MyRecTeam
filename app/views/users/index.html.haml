@@ -13,3 +13,8 @@
         %td= link_to user.display_name, (current_user.try(:admin?) ? user : profile_user_path(user))
         %td= user.email
         %td= user.username
+
+:coffee
+  $('table').DataTable({
+    pageLength: 25
+  })

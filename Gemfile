@@ -19,6 +19,7 @@ gem 'bootstrap_form'
 gem 'local_time'
 gem 'annotate'
 gem 'kaminari'
+gem 'jquery-datatables-rails', '~> 3.4.0'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
