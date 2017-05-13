@@ -13,7 +13,7 @@
       .panel-body
         %p
           %strong Time:
-          = local_time @game.time
+          = local_time @game.time if @game.time.present?
         %p
           %strong Location:
           = @game.location

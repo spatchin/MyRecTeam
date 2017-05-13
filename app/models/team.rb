@@ -29,7 +29,6 @@ class Team < ApplicationRecord
   has_many :starters, through: :starting_members, source: :user
   has_many :alternates, through: :alternate_members, source: :user
   has_one :captain, through: :captain_member, source: :user
-  # has_many :users, through: :members
 
   has_many :team_attendances
   has_many :games, through: :team_attendances

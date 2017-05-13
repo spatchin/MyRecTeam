@@ -31,7 +31,7 @@ class Member < ApplicationRecord
   validates :user, uniqueness: { scope: :team }
 
   def set_default_role
-    self.role ||= :starter
+    self.role ||= :alternate
   end
 
   def generate_token

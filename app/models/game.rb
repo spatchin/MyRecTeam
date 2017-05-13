@@ -35,7 +35,7 @@ class Game < ApplicationRecord
     self.status ||= :pending
   end
 
-  def is_player?(user)
+  def has_player?(user)
     return false unless user.is_a? User
     team_attendances.players.include?(user)
   end
@@ -43,17 +43,5 @@ class Game < ApplicationRecord
   def created_by?(user)
     return false unless user.is_a? User
     created_by == user
-  end
-
-  def score
-    ta1 = team_attendances[0]
-    ta2 = team_attendances[-1]
-    {ta1.team => ta1.score || 0, ta2.team => ta2.score || 0}
-  end
-
-  def display_score
-    ta1 = team_attendances[0]
-    ta2 = team_attendances[-1]
-    "#{ta1.team.name} - #{ta2.team.name}\n#{ta1.score || 0} - #{ta2.score || 0}"
   end
 end

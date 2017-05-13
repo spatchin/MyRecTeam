@@ -7,4 +7,5 @@
           = f.text_field :name, autofocus: true
           = f.datetime_local_field :time
           = f.text_field :location
+          = f.select :team_ids, current_user.teams.map{ |t| [t.name, t.id] }
           = f.submit

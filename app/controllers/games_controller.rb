@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
   before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy]
   before_action :authorize_resource, except: [:show, :edit, :update, :destroy]
 
@@ -74,6 +74,6 @@ class GamesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def resource_params
-    params.require(:game).permit(:name, :notes, :time, :location)
+    params.require(:game).permit(:name, :notes, :time, :location, :team_ids)
   end
 end

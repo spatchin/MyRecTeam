@@ -1,13 +1,14 @@
 class GamePolicy < ApplicationPolicy
-  # class Scope < Scope
-  #   def resolve
-  #     if @user.admin?
-  #       scope.all
-  #     else
-  #       scope.where(created_by: @user)
-  #     end
-  #   end
-  # end
+  class Scope < Scope
+    def resolve
+      if @user.admin?
+        scope.all
+      else
+        # scope.where(created_by: @user)
+        @user.teams
+      end
+    end
+  end
 
   def index?
     true

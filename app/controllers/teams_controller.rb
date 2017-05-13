@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
   before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :add_player, :remove_player]
   before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :add_player, :remove_player]
 

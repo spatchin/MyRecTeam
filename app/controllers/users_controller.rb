@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :profile]
+  before_action :authenticate_user!
   before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :profile]
   before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :profile]
 
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   private
 
-  def set_and_authorize_resource 
+  def set_and_authorize_resource
     authorize @user = User.find(params[:id])
   end
 

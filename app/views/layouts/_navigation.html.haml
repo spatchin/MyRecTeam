@@ -9,9 +9,10 @@
       %a.navbar-brand{href: "/"} RecTime
     .collapse.navbar-collapse#nav-links
       %ul.nav.navbar-nav.navbar-left
-        %li= link_to 'TEAMS', teams_path
-        %li= link_to 'GAMES', games_path
-        %li= link_to 'USERS', users_path
+        - if current_user
+          %li= link_to 'TEAMS', teams_path
+          %li= link_to 'GAMES', games_path
+          %li= link_to 'USERS', users_path
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li.dropdown
