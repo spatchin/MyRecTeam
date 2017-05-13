@@ -36,7 +36,6 @@ class Team < ApplicationRecord
   validates :name, :location, presence: true
   validates :name, uniqueness: true
 
-
   # ids of all releavant peopel to this team
   def all_member_ids
     Users.where(id: members).distinct.ids

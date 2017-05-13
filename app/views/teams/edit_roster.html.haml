@@ -38,10 +38,10 @@
           = label_tag "team[roster][roles][]", m.user.display_name, class: 'control-label col-sm-3'
           .col-sm-8
             = hidden_field_tag "team[roster][player_ids][]", m.user_id
-            - if m.accepted?
-              = select_tag "team[roster][roles][]", options_for_select([['Starter', 'starter'], ['Alternate', 'alternate']], m.role), class: 'form-control'
-            - else
+            - if m.token.present? && !m.accepted?
               = select_tag "team[roster][roles][]", options_for_select(['Waiting to accept invite']), disabled: true, class: 'form-control'
+            - else
+              = select_tag "team[roster][roles][]", options_for_select([['Starter', 'starter'], ['Alternate', 'alternate']], m.role), class: 'form-control'
           .col-sm-1
             = link_to fa_icon('trash lg'), remove_player_team_path(@team, team: {roster: {player_ids: [m.user_id]}}), method: :post, class: 'btn btn-danger' if policy(@team).remove_player? && !m.captain?
     .panel-footer

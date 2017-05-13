@@ -22,8 +22,6 @@ class Member < ApplicationRecord
   belongs_to :user
   belongs_to :team
 
-  before_create :generate_token
-
   enum role: [:starter, :alternate]
   after_initialize :set_default_role, if: :new_record?
 
@@ -34,8 +32,9 @@ class Member < ApplicationRecord
     self.role ||= :alternate
   end
 
-  def generate_token
+  def generate_token!
      self.token = Digest::SHA1.hexdigest([self.user_id, Time.now, rand].join)
+     save!
   end
 
   def accept!

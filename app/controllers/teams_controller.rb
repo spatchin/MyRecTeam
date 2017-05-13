@@ -29,12 +29,13 @@ class TeamsController < ApplicationController
   # POST /teams
   # POST /teams.json
   def create
-    @team = Team.new(resource_params)
-    @team.created_by = current_user
-    @team.captain = current_user
+    @team = current_user.created_teams.new(resource_params)
 
     respond_to do |format|
       if @team.save
+        @team.starters << current_user
+        @team.members.last.update(captain: true)
+
         format.html { redirect_to @team, notice: 'Team was successfully created.' }
         format.json { render :show, status: :created, location: @team }
       else
@@ -110,6 +111,7 @@ class TeamsController < ApplicationController
     member = @team.members.last
 
     # send email with link that updates member accepted at
+    member.generate_token!
     accept_link = accept_invite_members_url(token: member.token)
     deny_link = deny_invite_members_url(token: member.token)
     TeamMailer.add_player_email(accept_link, deny_link, @team, user).deliver_later # deliver_now
