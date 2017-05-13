@@ -23,11 +23,15 @@ class TeamAttendance < ApplicationRecord
 
   has_many :user_attendances, dependent: :destroy
   has_many :players, through: :user_attendances, source: :user
-  
+
   enum status: [:pending, :win, :lose, :draw, :forfeit]
   after_initialize :set_default_status, if: :new_record?
 
   validates :status, presence: true
+
+  after_create do
+    self.players = team.users
+  end
 
   def set_default_status
     self.status ||= :pending
