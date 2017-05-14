@@ -55,7 +55,7 @@ class User < ApplicationRecord
   has_many :captain_teams, through: :captain_memberships, source: :team
 
   has_many :attendance_records, class_name: 'UserAttendance', dependent: :destroy
-  has_many :team_attendance_records, through: :attendance_records, class_name: 'TeamAttendance'
+  has_many :games, through: :attendance_records
 
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, if: :new_record?

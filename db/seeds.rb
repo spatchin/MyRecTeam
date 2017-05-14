@@ -4,7 +4,6 @@ if Rails.env.development?
   Team.destroy_all
   Game.destroy_all
   Member.destroy_all
-  TeamAttendance.destroy_all
   UserAttendance.destroy_all
 
   p admin = FactoryGirl.create(:admin_user)
@@ -26,9 +25,5 @@ if Rails.env.development?
   admin.teams << Team.all.sample(2)
   regular.teams << Team.all.sample(2)
 
-  FactoryGirl.create_list(:game, 5)
-  Game.all.each do |g|
-    g.teams << Team.all.sample
-    p g
-  end
+  FactoryGirl.create_list(:game, 5, team: Team.all.sample)
 end

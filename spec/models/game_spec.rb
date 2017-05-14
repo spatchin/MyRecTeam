@@ -9,11 +9,13 @@
 #  notes      :text
 #  status     :integer
 #  user_id    :integer
+#  team_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
+#  index_games_on_team_id  (team_id)
 #  index_games_on_user_id  (user_id)
 #
 
@@ -22,10 +24,10 @@ describe Game do
 
   subject { game }
 
-  it { should belong_to(:created_by) }
+  it { should belong_to(:created_by).class_name('User').with_foreign_key('user_id') }
 
-  it { should have_many(:team_attendances) }
-  it { should have_many(:teams) }
+  it { should have_many(:user_attendances).dependent(:destroy) }
+  it { should have_many(:players).through(:user_attendances) }
 
   it { should define_enum_for(:status) }
 

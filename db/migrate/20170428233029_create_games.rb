@@ -7,6 +7,7 @@ class CreateGames < ActiveRecord::Migration[5.0]
       t.text :notes
       t.integer :status
       t.belongs_to :user
+      t.belongs_to :team
 
       t.timestamps
     end

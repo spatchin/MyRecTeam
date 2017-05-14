@@ -23,31 +23,35 @@
   .col-sm-6
     .panel.panel-info
       .panel-heading
-        %h3.panel-title Score
+        %h3.panel-title Are you going?
       .panel-body
-
+        .row
+          .col-sm-6
+            = link_to fa_icon('check 5x'), '#', class: 'btn btn-block btn-success', title: 'Attending'
+          .col-sm-6
+            = link_to fa_icon('times 5x'), '#', class: 'btn btn-block btn-danger', title: 'Absent'
 
 .panel.panel-success
   .panel-heading
-    %h2.panel-title Teams
+    %h2.panel-title Roster
   .panel-body
     .row
-    - @teams.each do |team|
       .col-sm-6
-        %h3{style: 'margin:0;'}= link_to team.name, team
+        %h3{style: 'margin:0;'}= link_to @team.name, @team
         %hr{style: 'margin-top:10px;'}
         %p
-          %strong Captain:
-          %ul
-            %li= link_to team.captain.try(:display_name), profile_user_path(team.captain)
-        %p
           %strong Starters:
-          %ul
-            - team.starters.each do |t|
-              %li= link_to t.display_name, profile_user_path(t)
+          %table
+            - @team.starters.each do |t|
+              %tr
+                %td= link_to t.display_name, profile_user_path(t)
+                %td{style: 'padding: 0 10px;'}= link_to fa_icon('plus lg'), '#', class: 'text-success'
+                %td{style: 'padding: 0 10px;'}= link_to fa_icon('times lg'), '#', class: 'text-danger'
         %p
           %strong Alternates:
-          %ul
-            - team.alternates.each do |t|
-              %li= link_to t.display_name, profile_user_path(t)
-
+          %table
+            - @team.alternates.each do |t|
+              %tr
+                %td= link_to t.display_name, profile_user_path(t)
+                %td{style: 'padding: 0 10px;'}= link_to fa_icon('plus lg'), '#', class: 'text-success'
+                %td{style: 'padding: 0 10px;'}= link_to fa_icon('times lg'), '#', class: 'text-danger'

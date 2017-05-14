@@ -9,35 +9,36 @@
 #  notes      :text
 #  status     :integer
 #  user_id    :integer
+#  team_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
+#  index_games_on_team_id  (team_id)
 #  index_games_on_user_id  (user_id)
 #
 
 class Game < ApplicationRecord
   belongs_to :created_by, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :team
 
-  has_many :team_attendances, dependent: :destroy
-  has_many :teams, through: :team_attendances
+  has_many :user_attendances, dependent: :destroy
+  has_many :players, through: :user_attendances, source: :user
 
   enum status: [:pending, :in_progress, :complete]
   after_initialize :set_default_status, if: :new_record?
 
   validates :name, :status, presence: true
-  validate do |game|
-    errors.add(:teams, 'too many') if teams.count > 2
+
+  after_create do
+    team.users.each do |user|
+      self.user_attendances.create!(team: team, user: user)
+    end
   end
 
   def set_default_status
     self.status ||= :pending
-  end
-
-  def has_player?(user)
-    return false unless user.is_a? User
-    team_attendances.players.include?(user)
   end
 
   def created_by?(user)

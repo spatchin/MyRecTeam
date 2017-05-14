@@ -7,7 +7,7 @@ class UserPolicy
   end
 
   def index?
-    @current_user.try(:admin?)
+    true
   end
 
   def show?

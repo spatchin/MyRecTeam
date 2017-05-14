@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(version: 20170503025653) do
     t.text     "notes"
     t.integer  "status"
     t.integer  "user_id"
+    t.integer  "team_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_games_on_team_id"
     t.index ["user_id"], name: "index_games_on_user_id"
   end
 
@@ -37,17 +39,6 @@ ActiveRecord::Schema.define(version: 20170503025653) do
     t.index ["user_id"], name: "index_members_on_user_id"
   end
 
-  create_table "team_attendances", force: :cascade do |t|
-    t.integer  "game_id"
-    t.integer  "team_id"
-    t.integer  "status"
-    t.integer  "score"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["game_id"], name: "index_team_attendances_on_game_id"
-    t.index ["team_id"], name: "index_team_attendances_on_team_id"
-  end
-
   create_table "teams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -62,12 +53,14 @@ ActiveRecord::Schema.define(version: 20170503025653) do
   end
 
   create_table "user_attendances", force: :cascade do |t|
-    t.integer  "team_attendance_id"
+    t.integer  "game_id"
+    t.integer  "team_id"
     t.integer  "user_id"
     t.integer  "status"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.index ["team_attendance_id"], name: "index_user_attendances_on_team_attendance_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_user_attendances_on_game_id"
+    t.index ["team_id"], name: "index_user_attendances_on_team_id"
     t.index ["user_id"], name: "index_user_attendances_on_user_id"
   end
 
