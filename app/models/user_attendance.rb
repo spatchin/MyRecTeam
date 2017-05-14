@@ -17,7 +17,6 @@
 #  index_user_attendances_on_user_id  (user_id)
 #
 
-# attendance record for a given user on a given team for a given game
 class UserAttendance < ApplicationRecord
   belongs_to :game
   belongs_to :team

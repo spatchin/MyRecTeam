@@ -13,6 +13,7 @@ class GamesController < ApplicationController
   # GET /games/1.json
   def show
     @team = @game.team
+    @attendance = UserAttendance.find_by(team_id: @team.id, user_id: current_user.id)
   end
 
   # GET /games/new

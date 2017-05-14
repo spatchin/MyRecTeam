@@ -4,4 +4,12 @@
   = link_to 'Delete', @game, method: :delete, 'data-confirm': 'Are you sure?', class: 'btn btn-danger' if policy(@game).destroy?
   = link_to 'Back', @game, class: 'btn btn-default'
 
-= render 'form'
+.row
+  .col-md-offset-3.col-md-6
+    .panel.panel-default
+      .panel-body
+        = bootstrap_form_for @game do |f|
+          = f.datetime_local_field :time
+          = f.text_field :location
+          = f.text_area :notes
+          = f.submit

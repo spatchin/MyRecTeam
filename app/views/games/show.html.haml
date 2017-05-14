@@ -21,15 +21,27 @@
           %strong Notes:
           = @game.notes
   .col-sm-6
-    .panel.panel-info
-      .panel-heading
-        %h3.panel-title Are you going?
-      .panel-body
-        .row
-          .col-sm-6
-            = link_to fa_icon('check 5x'), '#', class: 'btn btn-block btn-success', title: 'Attending'
-          .col-sm-6
-            = link_to fa_icon('times 5x'), '#', class: 'btn btn-block btn-danger', title: 'Absent'
+    - if @game.time.to_date.today? && @attendance.present?
+      .panel.panel-info
+        .panel-heading
+          %h3.panel-title Are you going?
+        .panel-body
+          .row
+            .col-sm-6
+              = link_to fa_icon('check 5x'), '#', class: 'btn btn-block btn-success', title: 'Attending'
+            .col-sm-6
+              = link_to fa_icon('times 5x'), '#', class: 'btn btn-block btn-danger', title: 'Absent'
+    - elsif (@game.time.to_date.today? || @game.time.to_date.past?) && @attendance.present?
+      .panel.panel-info
+        .panel-heading
+          %h3.panel-title Are you going?
+        .panel-body.text-center
+          - if @attendance.attending?
+            %h1.text-success Going
+          - elsif @attendance.absent?
+            %h1.text-danger Not Going
+          - else
+            %h1.text-info Not Reported
 
 .panel.panel-success
   .panel-heading

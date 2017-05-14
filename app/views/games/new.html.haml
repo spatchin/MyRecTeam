@@ -3,4 +3,13 @@
 - content_for :itembar do
   = link_to 'Back', :back, class: 'btn btn-default'
 
-= render 'form'
+.row
+  .col-md-offset-3.col-md-6
+    .panel.panel-default
+      .panel-body
+        = bootstrap_form_for @game do |f|
+          = f.text_field :name, autofocus: true
+          = f.datetime_local_field :time
+          = f.text_field :location
+          = f.select :team_id, current_user.teams.map{ |t| [t.name, t.id] }
+          = f.submit
