@@ -1,4 +1,4 @@
-Rectime
+MyRecTeam
 ================
 
 Getting Started
