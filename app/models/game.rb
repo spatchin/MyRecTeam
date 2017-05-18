@@ -29,7 +29,7 @@ class Game < ApplicationRecord
   enum status: [:pending, :in_progress, :complete]
   after_initialize :set_default_status, if: :new_record?
 
-  validates :name, :status, presence: true
+  validates :name, :status, :time, :location, presence: true
 
   after_create do
     team.users.each do |user|
