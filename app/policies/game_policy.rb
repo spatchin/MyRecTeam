@@ -19,11 +19,11 @@ class GamePolicy < ApplicationPolicy
   end
 
   def new?
-    @user
+    @user.try(:captain?) || @user.admin?
   end
 
   def create?
-    @user
+    new?
   end
 
   def edit?

@@ -9,7 +9,7 @@
     .panel.panel-default
       .panel-body
         = bootstrap_form_for @game do |f|
-          = f.datetime_local_field :time
+          = f.datetime_select :time, ampm: true, order: [:month, :day, :year], use_short_month: true
           = f.text_field :location
           = f.text_area :notes
           = f.submit

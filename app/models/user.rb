@@ -75,4 +75,8 @@ class User < ApplicationRecord
   def display_name
     "#{first_name} #{last_name}"
   end
+
+  def captain?
+    captain_memberships.present?
+  end
 end
