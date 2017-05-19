@@ -1,11 +1,8 @@
 class TeamPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if @user.admin?
-        scope.all
-      else
-        scope.where(created_by: @user)
-      end
+      return scope.all if @user.admin?
+      scope.joins(:members).where('members.user_id = ? OR teams.user_id = ?', @user.id, @user.id)
     end
   end
 

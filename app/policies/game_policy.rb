@@ -1,12 +1,8 @@
 class GamePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if @user.admin?
-        scope.all
-      else
-        # scope.where(created_by: @user)
-        @user.teams
-      end
+      return scope.all if @user.admin?
+      scope.join(:user_attendances).where('user_attendances.user_id = ? OR games.user_id = ?', @user.id, @user.id)
     end
   end
 
@@ -27,7 +23,7 @@ class GamePolicy < ApplicationPolicy
   end
 
   def edit?
-    @user.try(:admin?) || @record.created_by?(@user)
+    @record.team.captain?(@user) || @record.created_by?(@user) || @user.try(:admin?)
   end
 
   def update?
@@ -35,6 +31,6 @@ class GamePolicy < ApplicationPolicy
   end
 
   def destroy?
-    @user.try(:admin?) || @record.created_by?(@user)
+    @record.team.captain?(@user) || @user.try(:admin?)
   end
 end

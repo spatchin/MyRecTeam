@@ -31,6 +31,7 @@ class Team < ApplicationRecord
   has_one :captain, through: :captain_member, source: :user
 
   has_many :games
+  has_many :attendance_records, class_name: 'UserAttendance'
 
   validates :name, :location, presence: true
   validates :name, uniqueness: true

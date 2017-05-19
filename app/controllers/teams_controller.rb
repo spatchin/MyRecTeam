@@ -6,7 +6,7 @@ class TeamsController < ApplicationController
   # GET /teams
   # GET /teams.json
   def index
-    @teams = Team.all.page(params[:page])
+    @teams = policy_scope(Team).page(params[:page])
   end
 
   # GET /teams/1
