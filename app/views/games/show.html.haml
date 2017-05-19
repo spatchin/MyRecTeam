@@ -21,17 +21,17 @@
           %strong Notes:
           = @game.notes
   .col-sm-6
-    - if @game.time.to_date.today? && @attendance.present?
+    - if (@game.time.to_date == Date.today) && @attendance.unreported?
       .panel.panel-info
         .panel-heading
           %h3.panel-title Are you going?
         .panel-body
           .row
             .col-sm-6
-              = link_to fa_icon('check 5x'), '#', class: 'btn btn-block btn-success', title: 'Attending'
+              = link_to fa_icon('check 5x'), attend_user_attendances_path(@attendance, game_id: @game.id), class: 'btn btn-block btn-success', title: 'Attending', method: :patch
             .col-sm-6
-              = link_to fa_icon('times 5x'), '#', class: 'btn btn-block btn-danger', title: 'Absent'
-    - elsif (@game.time.to_date.today? || @game.time.to_date.past?) && @attendance.present?
+              = link_to fa_icon('times 5x'), absent_user_attendances_path(@attendance, game_id: @game.id), class: 'btn btn-block btn-danger', title: 'Not Attending', method: :patch
+    - elsif (@game.time.to_date <= Date.today) && @attendance.present?
       .panel.panel-info
         .panel-heading
           %h3.panel-title Are you going?
@@ -53,17 +53,25 @@
         %hr{style: 'margin-top:10px;'}
         %p
           %strong Starters:
-          %table
-            - @team.starters.each do |t|
+          %table.table
+            - @starting_attendances.each do |t|
               %tr
-                %td= link_to t.display_name, profile_user_path(t)
-                %td{style: 'padding: 0 10px;'}= link_to fa_icon('plus lg'), '#', class: 'text-success'
-                %td{style: 'padding: 0 10px;'}= link_to fa_icon('times lg'), '#', class: 'text-danger'
+                %td= link_to t.user.display_name, profile_user_path(t.user)
+                - if t.attending?
+                  %td.text-success= fa_icon('check lg', title: 'Attending')
+                - elsif t.absent?
+                  %td.text-danger= fa_icon('times lg', title: 'Not Attending')
+                - else
+                  %td.text-info= fa_icon('minus lg', title: 'Unreported')
         %p
           %strong Alternates:
-          %table
-            - @team.alternates.each do |t|
+          %table.table
+            - @alternate_attendances.each do |t|
               %tr
-                %td= link_to t.display_name, profile_user_path(t)
-                %td{style: 'padding: 0 10px;'}= link_to fa_icon('plus lg'), '#', class: 'text-success'
-                %td{style: 'padding: 0 10px;'}= link_to fa_icon('times lg'), '#', class: 'text-danger'
+                %td= link_to t.user.display_name, profile_user_path(t.user)
+                - if t.attending?
+                  %td.text-success= fa_icon('check lg', title: 'Attending')
+                - elsif t.absent?
+                  %td.text-danger= fa_icon('times lg', title: 'Not Attending')
+                - else
+                  %td.text-info= fa_icon('minus lg', title: 'Unreported')

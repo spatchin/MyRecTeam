@@ -1,12 +1,8 @@
 class GamePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if @user.admin?
-        scope.all
-      else
-        # scope.where(created_by: @user)
-        @user.teams
-      end
+      return scope.all if @user.admin?
+      scope.join(:user_attendances).where('user_attendances.user_id = ? OR games.user_id = ?', @user.id, @user.id)
     end
   end
 
