@@ -31,6 +31,7 @@
 #  invited_by_type        :string
 #  invited_by_id          :integer
 #  invitations_count      :integer          default(0)
+#  phone                  :string
 #
 # Indexes
 #
@@ -47,6 +48,7 @@ FactoryGirl.define do
     last_name { Faker::Name.unique.last_name }
     username { "#{(first_name[0] + last_name).downcase}" }
     email { "#{username}@email.com" }
+    phone { Faker::PhoneNumber.cell_phone }
     password 'secret'
     password_confirmation 'secret'
 
