@@ -23,7 +23,7 @@ class GamePolicy < ApplicationPolicy
   end
 
   def edit?
-    @user.try(:admin?) || @record.created_by?(@user)
+    @record.team.captain?(@user) || @record.created_by?(@user) || @user.try(:admin?)
   end
 
   def update?
@@ -31,6 +31,6 @@ class GamePolicy < ApplicationPolicy
   end
 
   def destroy?
-    @user.try(:admin?) || @record.created_by?(@user)
+    @record.team.captain?(@user) || @user.try(:admin?)
   end
 end

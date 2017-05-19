@@ -13,7 +13,7 @@ class GamesController < ApplicationController
   # GET /games/1.json
   def show
     @team = @game.team
-    @attendance = UserAttendance.find_by(team_id: @team.id, user_id: current_user.id)
+    @attendance = UserAttendance.find_by(game: @game, team: @team, user: current_user)
     @starting_attendances = @team.attendance_records.where(user_id: @team.starters.ids, game: @game)
     @alternate_attendances = @team.attendance_records.where(user_id: @team.alternates.ids, game: @game)
   end
@@ -70,12 +70,10 @@ class GamesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_and_authorize_resource
     authorize @game = Game.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def resource_params
     params.require(:game).permit(:name, :notes, :time, :location, :team_id)
   end

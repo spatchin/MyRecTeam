@@ -32,21 +32,17 @@ feature 'Team' do
   context 'Regular user' do
     let!(:user) { regular_sign_in }
 
-    scenario 'can view all teams' do
+    scenario 'cannot view all teams' do
       other_user = create(:user)
       team = create(:team, created_by: other_user, captain: other_user)
 
       visit '/teams'
-      expect(page).to have_content team.name
+      expect(page).to_not have_content team.name
     end
 
     scenario 'cannot modify teams' do
       other_user = create(:user)
       team = create(:team, created_by: other_user, captain: other_user)
-
-      visit '/teams'
-      click_link team.name
-      expect(page).to_not have_content 'Edit'
 
       visit "/teams/#{team.id}/edit"
       expect(page).to have_content 'You are not authorized'
