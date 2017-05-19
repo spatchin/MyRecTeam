@@ -8,10 +8,11 @@
     .panel.panel-default
       .panel-body
         = bootstrap_form_for @user do |f|
-          = f.email_field :email, autofocus: true
-          = f.text_field :username, required: true
+          = f.text_field :username, required: true, autofocus: true
           = f.text_field :first_name, required: true
           = f.text_field :last_name, required: true
+          = f.email_field :email, required: true
+          = f.phone_field :phone
           = f.select :role, User.roles.keys.map {|r| [r.titleize, r]}
           = f.submit
 
