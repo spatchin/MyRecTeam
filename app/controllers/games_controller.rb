@@ -70,8 +70,12 @@ class GamesController < ApplicationController
   end
 
   def complete
-    @game.completed!
-    redirect_to @game
+    if %w(win draw loss).include?(params[:status])
+      @game.update(status: params[:status])
+      redirect_to @game
+    else
+      recirect_to @game, alert: 'Error: invalid game status'
+    end
   end
 
   def cancel

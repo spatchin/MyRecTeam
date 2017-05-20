@@ -30,6 +30,20 @@ feature 'Game' do
       expect(game.reload.attributes.slice('time', 'location').values).to eq [time, location]
     end
 
+    scenario "cannot set games to time and location" do
+      team = create(:team)
+      team.members.create(user: user, role: :starter)
+      game = create(:game, team: team)
+      time = Time.current.beginning_of_hour
+      location = 'here'
+
+      visit "/games/#{game.id}"
+      expect(page).to_not have_link 'Edit'
+
+      visit "/games/#{game.id}/edit"
+      expect(page).to have_content 'not authorized'
+    end
+
     scenario "can report their attendance as attending" do
       team = create(:team)
       team.members.create(user: user, role: :starter)
@@ -52,6 +66,26 @@ feature 'Game' do
       expect(UserAttendance.order(:updated_at).last.status).to eq 'absent'
     end
 
+    scenario 'cannot change game status' do
+      team = create(:team)
+      team.members.create(user: user, role: :starter)
+      game = create(:game, team: team, time: 2.hours.from_now)
+
+      visit "/games/#{game.id}"
+      expect(page).to_not have_link 'Cancel'
+      expect(page).to_not have_link 'Complete'
+    end
+
+    scenario 'as captain, can change game status' do
+      team = create(:team)
+      team.members.create(user: user, role: :starter, captain: true)
+      game = create(:game, team: team, time: 2.hours.from_now)
+
+      visit "/games/#{game.id}"
+      expect(page).to have_link 'Cancel'
+      expect(page).to have_button 'Complete'
+    end
+
     scenario 'can view game status--canceled' do
       team = create(:team)
       team.members.create(user: user, role: :starter)
@@ -61,13 +95,13 @@ feature 'Game' do
       expect(page).to have_content 'Canceled'
     end
 
-    scenario 'can view game status--canceled' do
+    scenario 'can view game status--complete' do
       team = create(:team)
       team.members.create(user: user, role: :starter)
-      game = create(:game, :completed, team: team, time: 2.hours.from_now)
+      game = create(:game, :win, team: team, time: 2.hours.from_now)
 
       visit "/games/#{game.id}"
-      expect(page).to have_content 'Score'
+      expect(page).to have_content 'Result'
     end
 
     scenario "as team captain, can report score" do

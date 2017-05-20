@@ -33,8 +33,16 @@ FactoryGirl.define do
       status 'canceled'
     end
 
-    trait :completed do
-      status 'completed'
+    trait :win do
+      status 'win'
+    end
+
+    trait :draw do
+      status 'draw'
+    end
+
+    trait :loss do
+      status 'loss'
     end
   end
 end

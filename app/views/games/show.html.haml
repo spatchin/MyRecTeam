@@ -2,7 +2,15 @@
   %h1 Game: #{@game.name}
 - content_for :itembar do
   = link_to 'Cancel', cancel_game_path(@game), method: :patch, class: 'btn btn-danger' if policy(@game).cancel?
-  = link_to 'Complete', complete_game_path(@game), method: :patch, class: 'btn btn-success' if policy(@game).complete?
+  - if policy(@game).complete?
+    .dropdown
+      %button.btn.btn-primary.dropdown-toggle{type: 'button', 'data-toggle': 'dropdown'}
+        Complete
+        %span.caret
+      %ul.dropdown-menu
+        %li= link_to 'Win', complete_game_path(@game, status: 'win'), method: :patch
+        %li= link_to 'Draw', complete_game_path(@game, status: 'draw'), method: :patch
+        %li= link_to 'Loss', complete_game_path(@game, status: 'loss'), method: :patch
   = link_to 'Edit', edit_game_path(@game), class: 'btn btn-default' if policy(@game).edit?
   = link_to 'All Games', games_path, class: 'btn btn-default' if policy(@game).index?
 
@@ -25,9 +33,9 @@
     - if @game.completed?
       .panel.panel-info
         .panel-heading
-          %h3.panel-title Score
-        .panel-body
-          .row
+          %h3.panel-title Result
+        .panel-body.text-center
+          %h1.text-info= @game.status.capitalize
     - elsif @game.canceled?
       .panel.panel-warning
         .panel-heading
