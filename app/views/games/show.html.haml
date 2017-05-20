@@ -40,7 +40,7 @@
       .panel.panel-warning
         .panel-heading
           %h3.panel-title Status
-        .panel-body
+        .panel-body.text-center
           %h1.text-danger Canceled
     - elsif @game.time.today? && @attendance.unreported?
       .panel.panel-info
