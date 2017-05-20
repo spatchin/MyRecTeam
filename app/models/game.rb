@@ -26,7 +26,7 @@ class Game < ApplicationRecord
   has_many :user_attendances, dependent: :destroy
   has_many :players, through: :user_attendances, source: :user
 
-  enum status: [:pending, :canceled, :complete]
+  enum status: [:pending, :canceled, :win, :loss, :draw]
   after_initialize :set_default_status, if: :new_record?
 
   validates :name, :status, :time, :location, presence: true
@@ -44,5 +44,9 @@ class Game < ApplicationRecord
   def created_by?(user)
     return false unless user.is_a? User
     created_by == user
+  end
+
+  def completed?
+    win? || loss? || draw?
   end
 end

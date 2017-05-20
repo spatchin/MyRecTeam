@@ -11,8 +11,9 @@ if Rails.env.development?
   p regular = FactoryGirl.create(:user, email: 'user@email.com', first_name: 'Regular', last_name: 'User')
   regular.confirm
 
-  5.times do
-    users = FactoryGirl.create_list(:user, 10)
+  3.times do
+    users = FactoryGirl.create_list(:user, 8)
+    users += [admin, regular]
     team = FactoryGirl.create(:team)
     team.starters = users[0...5]
     team.alternates = users[5...10]
@@ -22,8 +23,7 @@ if Rails.env.development?
     p team
   end
 
-  admin.teams << Team.all.sample(2)
-  regular.teams << Team.all.sample(2)
-
-  FactoryGirl.create_list(:game, 5, team: Team.all.sample)
+  FactoryGirl.create(:game, team: Team.all.sample, time: 1.day.ago)
+  FactoryGirl.create(:game, team: Team.all.sample, time: Time.now)
+  FactoryGirl.create(:game, team: Team.all.sample, time: 1.day.from_now)
 end

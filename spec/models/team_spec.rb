@@ -33,7 +33,8 @@ describe Team do
   it { should have_many(:alternates).through(:alternate_members).source(:user) }
   it { should have_one(:captain).through(:captain_member).source(:user) }
 
-  it { should have_many(:games) }
+  it { should have_many(:games).dependent(:destroy) }
+  it { should have_many(:attendance_records).class_name('UserAttendance').dependent(:destroy) }
 
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:location) }

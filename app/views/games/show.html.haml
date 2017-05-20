@@ -1,9 +1,18 @@
 - content_for :pagetitle do
   %h1 Game: #{@game.name}
 - content_for :itembar do
-  = link_to 'Cancel', '#', class: 'btn btn-danger' if policy(@game).edit?
+  = link_to 'Cancel', cancel_game_path(@game), method: :patch, class: 'btn btn-danger' if policy(@game).cancel?
+  - if policy(@game).complete?
+    .dropdown
+      %button.btn.btn-primary.dropdown-toggle{type: 'button', 'data-toggle': 'dropdown'}
+        Complete
+        %span.caret
+      %ul.dropdown-menu
+        %li= link_to 'Win', complete_game_path(@game, status: 'win'), method: :patch
+        %li= link_to 'Draw', complete_game_path(@game, status: 'draw'), method: :patch
+        %li= link_to 'Loss', complete_game_path(@game, status: 'loss'), method: :patch
   = link_to 'Edit', edit_game_path(@game), class: 'btn btn-default' if policy(@game).edit?
-  = link_to 'Back', games_path, class: 'btn btn-default' if policy(@game).index?
+  = link_to 'All Games', games_path, class: 'btn btn-default' if policy(@game).index?
 
 .row
   .col-sm-6
@@ -21,17 +30,29 @@
           %strong Notes:
           = @game.notes
   .col-sm-6
-    - if (@game.time.to_date == Date.today) && @attendance.unreported?
+    - if @game.completed?
+      .panel.panel-info
+        .panel-heading
+          %h3.panel-title Result
+        .panel-body.text-center
+          %h1.text-info= @game.status.capitalize
+    - elsif @game.canceled?
+      .panel.panel-warning
+        .panel-heading
+          %h3.panel-title Status
+        .panel-body
+          %h1.text-danger Canceled
+    - elsif @game.time.today? && @attendance.unreported?
       .panel.panel-info
         .panel-heading
           %h3.panel-title Are you going?
         .panel-body
           .row
             .col-sm-6
-              = link_to fa_icon('check 5x'), attend_user_attendances_path(@attendance, game_id: @game.id), class: 'btn btn-block btn-success', title: 'Attending', method: :patch
+              = link_to fa_icon('check 5x'), attend_user_attendances_path(@attendance, game_id: @game.id), class: 'btn btn-block btn-success', title: 'Attending', method: :patch if policy(@attendance).attend?
             .col-sm-6
-              = link_to fa_icon('times 5x'), absent_user_attendances_path(@attendance, game_id: @game.id), class: 'btn btn-block btn-danger', title: 'Not Attending', method: :patch
-    - elsif (@game.time.to_date <= Date.today) && @attendance.present?
+              = link_to fa_icon('times 5x'), absent_user_attendances_path(@attendance, game_id: @game.id), class: 'btn btn-block btn-danger', title: 'Not Attending', method: :patch if policy(@attendance).attend?
+    - elsif @game.time.past? || !@attendance.unreported?
       .panel.panel-info
         .panel-heading
           %h3.panel-title Are you going?

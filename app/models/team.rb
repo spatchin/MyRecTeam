@@ -30,8 +30,8 @@ class Team < ApplicationRecord
   has_many :alternates, through: :alternate_members, source: :user
   has_one :captain, through: :captain_member, source: :user
 
-  has_many :games
-  has_many :attendance_records, class_name: 'UserAttendance'
+  has_many :games, dependent: :destroy
+  has_many :attendance_records, class_name: 'UserAttendance', dependent: :destroy
 
   validates :name, :location, presence: true
   validates :name, uniqueness: true

@@ -12,7 +12,10 @@ Rails.application.routes.draw do
     post :add_player, on: :member
   end
 
-  resources :games
+  resources :games do
+    patch :complete, on: :member
+    patch :cancel, on: :member
+  end
 
   devise_for :users
   resources :users do

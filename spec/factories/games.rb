@@ -28,5 +28,21 @@ FactoryGirl.define do
     time { FFaker::Time.datetime }
     location { ['Madison, WI', 'Verona, WI'].sample }
     notes { FFaker::Lorem.paragraph }
+
+    trait :canceled do
+      status 'canceled'
+    end
+
+    trait :win do
+      status 'win'
+    end
+
+    trait :draw do
+      status 'draw'
+    end
+
+    trait :loss do
+      status 'loss'
+    end
   end
 end
