@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_resource, except: [:show, :edit, :update, :destroy]
+  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :complete, :cancel]
+  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :complete, :cancel]
 
   # GET /games
   # GET /games.json
@@ -32,6 +32,7 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(resource_params)
     @game.created_by = current_user
+    @game.captain = current_user
 
     respond_to do |format|
       if @game.save
@@ -66,6 +67,16 @@ class GamesController < ApplicationController
       format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def complete
+    @game.completed!
+    redirect_to @game
+  end
+
+  def cancel
+    @game.canceled!
+    redirect_to @game
   end
 
   private

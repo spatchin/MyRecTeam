@@ -19,32 +19,7 @@
         %p
           %strong Location:
           = @team.location
-
-%hr
-.row
-  .col-md-6
-    .panel.panel-success
-      .panel-heading
-        %h2.panel-title Games
-      .panel-body
-        %h3 Upcoming
-        %table.table.table-striped
-          %thead
-            %tr
-              %th Name
-              %th Time
-              %th Location
-          %tbody
-        %hr
-        %h3 Complete
-        %table.table.table-striped
-          %thead
-            %tr
-              %th Name
-              %th Time
-              %th Location
-          %tbody
-  .col-md-6
+  .col-sm-6
     .panel.panel-info
       .panel-heading
         .row
@@ -67,3 +42,26 @@
           %ul
             - @team.alternates.each do |t|
               %li= link_to t.display_name, profile_user_path(t)
+%hr
+.panel.panel-success
+  .panel-heading
+    %h2.panel-title Games
+  .panel-body
+    %h3 Upcoming
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Time
+          %th Location
+      %tbody
+    %hr
+    %h3 Complete
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Time
+          %th Location
+      %tbody
+

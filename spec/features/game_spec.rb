@@ -52,9 +52,29 @@ feature 'Game' do
       expect(UserAttendance.order(:updated_at).last.status).to eq 'absent'
     end
 
+    scenario 'can view game status--canceled' do
+      team = create(:team)
+      team.members.create(user: user, role: :starter)
+      game = create(:game, :canceled, team: team, time: 2.hours.from_now)
+
+      visit "/games/#{game.id}"
+      expect(page).to have_content 'Canceled'
+    end
+
+    scenario 'can view game status--canceled' do
+      team = create(:team)
+      team.members.create(user: user, role: :starter)
+      game = create(:game, :completed, team: team, time: 2.hours.from_now)
+
+      visit "/games/#{game.id}"
+      expect(page).to have_content 'Score'
+    end
+
+    scenario "as team captain, can report score" do
+
+    end
+
     scenario "as team captain, can view team attendance for game"
-    scenario "as team captain, can report score"
-    scenario "can view game status (pending, complete, canceled)"
     scenario "can view game status notes ('team 1 wins, team 2 forfeits, etc')"
   end
 end

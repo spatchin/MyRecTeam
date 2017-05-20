@@ -1,9 +1,9 @@
 class UserAttendancePolicy < ApplicationPolicy
   def attend?
-    @record.user == @user
+    (@record.user == @user && @record.game.pending?) || @record.team.captain?(@user)
   end
 
   def absent?
-    @record.user == @user
+    attend?
   end
 end

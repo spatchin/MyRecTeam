@@ -64,21 +64,21 @@ feature 'Team' do
       expect(new_team.captain).to eq user
     end
 
+    scenario 'as team captain, can change user role on team'
+
     scenario 'can request to join teams'
 
-    scenario 'can have role on team'
+    scenario 'as team captain, can invite existing users to join team'
 
-    scenario 'as team captains can invite existing users to join team'
+    scenario 'as team captain, can invite new users to join team'
 
-    scenario 'as team captains can invite new users to join team'
+    scenario 'as team captain, can remove players'
 
-    scenario 'as team captains can remove players'
+    scenario 'as team captain, can change players roles in team'
 
-    scenario 'as team captains can change players roles in team'
+    scenario 'as team captain, can edit team profile'
 
-    scenario 'as team captains can edit team profile'
-
-    scenario 'as team captains can disband team'
+    scenario 'as team captain, can disband team'
 
     scenario 'cannot not modify count of wins/losses/draws for team'
   end
