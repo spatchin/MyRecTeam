@@ -20,6 +20,7 @@ gem 'local_time'
 gem 'annotate'
 gem 'kaminari'
 gem 'jquery-datatables-rails', '~> 3.4.0'
+gem 'acts_as_commentable'
 
 group :development do
   gem 'web-console', '>= 3.3.0'

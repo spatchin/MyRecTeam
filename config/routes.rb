@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     patch :cancel, on: :member
   end
 
+  resources :comments, only: [:create, :update, :destroy]
+
   devise_for :users
   resources :users do
     get :profile, on: :member

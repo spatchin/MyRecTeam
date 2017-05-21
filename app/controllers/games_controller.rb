@@ -13,6 +13,7 @@ class GamesController < ApplicationController
   # GET /games/1.json
   def show
     @team = @game.team
+    @comments = @game.comments.includes(:commenter)
     @attendance = UserAttendance.find_by(game: @game, team: @team, user: current_user)
     @starting_attendances = @team.attendance_records.where(user_id: @team.starters.ids, game: @game)
     @alternate_attendances = @team.attendance_records.where(user_id: @team.alternates.ids, game: @game)
