@@ -11,7 +11,7 @@ class GamePolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    @user.admin? || @team.captain?(@user) || @team.users.include?(@user)
   end
 
   def new?

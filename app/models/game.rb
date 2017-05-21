@@ -20,6 +20,8 @@
 #
 
 class Game < ApplicationRecord
+  acts_as_commentable
+
   belongs_to :created_by, class_name: 'User', foreign_key: 'user_id'
   belongs_to :team
 
