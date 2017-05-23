@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
 
   resources :comments, only: [:create, :update, :destroy]
+  resources :preferences, only: [:show, :create, :update, :destroy]
 
   devise_for :users
   resources :users do

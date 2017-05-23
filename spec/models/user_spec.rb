@@ -60,6 +60,7 @@ describe User do
 
   it { should have_many(:attendance_records).class_name('UserAttendance').dependent(:destroy) }
   it { should have_many(:games).through(:attendance_records) }
+  it { should have_many(:preferences) }
 
   it { should define_enum_for(:role) }
 

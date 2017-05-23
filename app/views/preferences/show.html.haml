@@ -1,0 +1,10 @@
+= bootstrap_form_for @preference, layout: :horizontal, label_col: "col-sm-5", control_col: "col-sm-7"  do |f|
+  .row
+    .col-md-offset-2.col-md-8
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title Preferences
+        .panel-body
+          = f.select :game_email_reminder, options_for_select((1..12).map { |h| h == 12 ? ' 12 pm' : " #{h} am" }, @preference.game_email_reminder.localtime.strftime("%l %P")), label: 'Send game email reminders at'
+        .panel-footer.text-right
+          = f.submit 'Update'

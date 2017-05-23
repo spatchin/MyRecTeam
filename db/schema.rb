@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170520232757) do
+ActiveRecord::Schema.define(version: 20170522003125) do
 
   create_table "comments", force: :cascade do |t|
     t.string   "title",            limit: 50, default: ""
@@ -51,6 +51,14 @@ ActiveRecord::Schema.define(version: 20170520232757) do
     t.datetime "updated_at",                  null: false
     t.index ["team_id"], name: "index_members_on_team_id"
     t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "preferences", force: :cascade do |t|
+    t.integer  "user_id"
+    t.time     "game_email_reminder", default: '2000-01-01 14:00:00'
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+    t.index ["user_id"], name: "index_preferences_on_user_id"
   end
 
   create_table "teams", force: :cascade do |t|
