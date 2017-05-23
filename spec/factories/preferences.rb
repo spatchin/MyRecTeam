@@ -17,7 +17,6 @@ FactoryGirl.define do
   factory :preference do
     user
 
-    name "MyString"
-    val "MyString"
+    game_email_reminder { Time.now }
   end
 end

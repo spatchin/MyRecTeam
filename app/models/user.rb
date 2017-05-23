@@ -67,7 +67,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :username # email is validated by devise
 
   after_create do
-    self.preferences.create!(game_email_reminder: '9am'.to_time.utc)
+    self.create_preference!(game_email_reminder: '9am'.to_time.utc)
   end
 
   # Include default devise modules. Others available are:
