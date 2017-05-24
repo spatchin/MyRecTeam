@@ -86,4 +86,15 @@ class User < ApplicationRecord
   def captain?
     captain_memberships.present?
   end
+
+  def self.send_game_reminders(time)
+    users = all.joins(:preference, :games).where(preferences: {game_email_reminder: time.at_beginning_of_hour},
+                                                 games: {time: (time.at_beginning_of_day..time.at_end_of_day)})
+    users.each do |user|
+      games = user.games.today
+      games.each do |game|
+        # send mail
+      end
+    end
+  end
 end

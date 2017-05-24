@@ -37,6 +37,17 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
+
+        @game.players.each do |player|
+          player.generate_token!
+          attendance_link = update_game_reminder_url(token: player.token)
+          GameMailer.game_reminder(player, attendance_link, @game).deliver_later(wait_until: 15.seconds.from_now)
+        end
+
+        # TODO:
+        # manually test if mail sends
+        # write tests
+
         format.html { redirect_to @game, notice: 'Game was successfully created.' }
         format.json { render :show, status: :created, location: @game }
       else

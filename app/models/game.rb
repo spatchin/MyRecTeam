@@ -51,4 +51,8 @@ class Game < ApplicationRecord
   def completed?
     win? || loss? || draw?
   end
+
+  def self.today
+    where(time: Date.today.beginning_of_day..Date.today.end_of_day)
+  end
 end

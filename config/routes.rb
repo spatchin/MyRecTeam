@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   patch '/user_attendances/:id/attend', to: 'user_attendances#attend', as: 'attend_user_attendances'
   patch '/user_attendances/:id/absent', to: 'user_attendances#absent', as: 'absent_user_attendances'
+  patch '/user_attendances/update_game', to: 'user_attendances#update_from_email', as: 'update_game_reminder'
 
   resources :teams do
     get :edit_roster, on: :member

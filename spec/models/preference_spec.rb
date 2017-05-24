@@ -4,7 +4,7 @@
 #
 #  id                  :integer          not null, primary key
 #  user_id             :integer
-#  game_email_reminder :time             default(2000-01-01 14:00:00 UTC)
+#  game_email_reminder :time             default(Sat, 01 Jan 2000 14:00:00 UTC +00:00)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #

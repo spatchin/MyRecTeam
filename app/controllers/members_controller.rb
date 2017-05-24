@@ -4,6 +4,7 @@ class MembersController < ApplicationController
     redirect_to root_url, alert: 'Invitation could not be accepted.' if @member.blank?
 
     @member.accept!
+    @member.clear_token!
     redirect_to @member.team, notice: 'Invitation accepted.'
   end
 
