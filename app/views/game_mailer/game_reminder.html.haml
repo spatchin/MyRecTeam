@@ -6,6 +6,6 @@
     %hr
     .row
       .col-md-6
-        = link_to 'Attending', @user_attendance_link + '&attending=true', method: :patch, class: 'btn btn-lg btn-success'
+        = link_to 'Attending', @attending_link, method: :patch, class: 'btn btn-lg btn-success'
       .col-md-6.text-right
-        = link_to 'Not Attending', @user_attendance_link + '&attending=false', method: :patch, class: 'btn btn-lg btn-danger'
+        = link_to 'Not Attending', @absent_link, method: :patch, class: 'btn btn-lg btn-danger'

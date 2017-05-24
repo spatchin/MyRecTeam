@@ -19,25 +19,32 @@
 #
 
 describe Team do
-  let!(:team) { create(:team) }
+  context 'model' do
+    let!(:team) { create(:team) }
 
-  subject { team }
+    subject { team }
 
-  it { should belong_to(:created_by).class_name('User') }
+    it { should belong_to(:created_by).class_name('User') }
 
-  it { should have_many(:members).dependent(:destroy) }
-  it { should have_many(:starting_members) }
-  it { should have_many(:alternate_members) }
-  it { should have_one(:captain_member) }
-  it { should have_many(:starters).through(:starting_members).source(:user) }
-  it { should have_many(:alternates).through(:alternate_members).source(:user) }
-  it { should have_one(:captain).through(:captain_member).source(:user) }
+    it { should have_many(:members).dependent(:destroy) }
+    it { should have_many(:starting_members) }
+    it { should have_many(:alternate_members) }
+    it { should have_one(:captain_member) }
+    it { should have_many(:starters).through(:starting_members).source(:user) }
+    it { should have_many(:alternates).through(:alternate_members).source(:user) }
+    it { should have_one(:captain).through(:captain_member).source(:user) }
 
-  it { should have_many(:games).dependent(:destroy) }
-  it { should have_many(:attendance_records).class_name('UserAttendance').dependent(:destroy) }
+    it { should have_many(:games).dependent(:destroy) }
+    it { should have_many(:attendance_records).class_name('UserAttendance').dependent(:destroy) }
 
-  it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:location) }
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:location) }
 
-  it { should validate_uniqueness_of(:name) }
+    it { should validate_uniqueness_of(:name) }
+  end
+
+  context 'create' do
+    it 'should send an invite email to existing user'
+    it 'should send an account creation invite email to non-existing user'
+  end
 end

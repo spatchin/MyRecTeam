@@ -14,20 +14,21 @@ feature 'Game' do
       team = create(:team)
       team.members.create(user: user, role: :starter, captain: true)
       game = create(:game, team: team)
-      time = Time.current.beginning_of_hour
+      time = 1.hour.from_now.localtime
       location = 'here'
 
       visit "/games/#{game.id}"
       click_link 'Edit'
-      select time.time.strftime('%b'), from: 'game_time_2i'
+      select time.strftime('%b'), from: 'game_time_2i'
       select time.day, from: 'game_time_3i'
       select time.year, from: 'game_time_1i'
       select time.strftime('%I %p'), from: 'game_time_4i'
-      select '00', from: 'game_time_5i'
+      select time.strftime('%M'), from: 'game_time_5i'
       fill_in 'Location', with: location
       click_button 'Update'
-      expect(page).to have_content 'successfully updated'
-      expect(game.reload.attributes.slice('time', 'location').values).to eq [time, location]
+      game = game.reload
+      expect(game.time.localtime.strftime('%D %H:%M %p')).to eq time.strftime('%D %H:%M %p')
+      expect(game.location).to eq location
     end
 
     scenario "cannot set games to time and location" do

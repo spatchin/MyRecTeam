@@ -69,34 +69,32 @@
       .panel-heading
         %h2.panel-title Roster
       .panel-body
-        .row
-          .col-sm-6
-            %h3{style: 'margin:0;'}= link_to @team.name, @team
-            %hr{style: 'margin-top:10px;'}
-            %p
-              %strong Starters:
-              %table.table
-                - @starting_attendances.each do |t|
-                  %tr
-                    %td= link_to t.user.display_name, profile_user_path(t.user)
-                    - if t.attending?
-                      %td.text-success= fa_icon('check lg', title: 'Attending')
-                    - elsif t.absent?
-                      %td.text-danger= fa_icon('times lg', title: 'Not Attending')
-                    - else
-                      %td.text-info= fa_icon('minus lg', title: 'Unreported')
-            %p
-              %strong Alternates:
-              %table.table
-                - @alternate_attendances.each do |t|
-                  %tr
-                    %td= link_to t.user.display_name, profile_user_path(t.user)
-                    - if t.attending?
-                      %td.text-success= fa_icon('check lg', title: 'Attending')
-                    - elsif t.absent?
-                      %td.text-danger= fa_icon('times lg', title: 'Not Attending')
-                    - else
-                      %td.text-info= fa_icon('minus lg', title: 'Unreported')
+        %h3{style: 'margin:0;'}= link_to @team.name, @team
+        %hr{style: 'margin-top:10px;'}
+        %p
+          %strong Starters:
+          %table.table
+            - @starting_attendances.each do |t|
+              %tr
+                %td= link_to t.user.display_name, profile_user_path(t.user)
+                - if t.attending?
+                  %td.text-success= fa_icon('check lg', title: 'Attending')
+                - elsif t.absent?
+                  %td.text-danger= fa_icon('times lg', title: 'Not Attending')
+                - else
+                  %td.text-info= fa_icon('minus lg', title: 'Unreported')
+        %p
+          %strong Alternates:
+          %table.table
+            - @alternate_attendances.each do |t|
+              %tr
+                %td= link_to t.user.display_name, profile_user_path(t.user)
+                - if t.attending?
+                  %td.text-success= fa_icon('check lg', title: 'Attending')
+                - elsif t.absent?
+                  %td.text-danger= fa_icon('times lg', title: 'Not Attending')
+                - else
+                  %td.text-info= fa_icon('minus lg', title: 'Unreported')
   .col-md-6
     .panel.panel-default
       .panel-heading

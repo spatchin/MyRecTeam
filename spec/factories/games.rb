@@ -25,7 +25,7 @@ FactoryGirl.define do
     team
 
     name { FFaker::Sport.name }
-    time { FFaker::Time.datetime }
+    time { Faker::Time.forward(7, :morning) }
     location { ['Madison, WI', 'Verona, WI'].sample }
     notes { FFaker::Lorem.paragraph }
 

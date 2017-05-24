@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20170523225024) do
 
   create_table "preferences", force: :cascade do |t|
     t.integer  "user_id"
-    t.time     "game_email_reminder", default: '2000-01-01 14:00:00'
+    t.time     "game_email_reminder", default: '2000-01-01 13:00:00'
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
     t.index ["user_id"], name: "index_preferences_on_user_id"

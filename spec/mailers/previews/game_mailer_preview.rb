@@ -9,9 +9,10 @@ class GameMailerPreview < ActionMailer::Preview
       game = FactoryGirl.create(:game, team: team)
     end
 
-    player = game.players.first
-    attendance_link = '#'
+    user = game.players.first
+    attending_link = '#'
+    absent_link = '#'
 
-    GameMailer.game_reminder(player, attendance_link, game)
+    GameMailer.game_reminder(user, attending_link, absent_link, game)
   end
 end
