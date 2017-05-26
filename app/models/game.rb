@@ -34,6 +34,8 @@ class Game < ApplicationRecord
   validates :name, :status, :time, :location, presence: true
   # validate :time_must_be_in_the_future
 
+  scope :today, -> { where(time: Date.today.beginning_of_day..Date.today.end_of_day) }
+
   after_create do
     team.users.each do |user|
       self.user_attendances.create!(team: team, user: user)
@@ -57,21 +59,5 @@ class Game < ApplicationRecord
 
   def completed?
     win? || loss? || draw?
-  end
-
-  def self.today
-    where(time: Date.today.beginning_of_day..Date.today.end_of_day)
-  end
-
-  def setup_reminder_emails!
-    user_attendances.includes(user: :preference).each do |attendance|
-      user = attendance.user
-      # preferred_email_time = user.preference.game_email_reminder.change(month: @game.time.month, day: @game.time.day, year: @game.time.year)
-      preferred_email_time = 15.seconds.from_now
-      attendance.generate_token!
-      attending_link = set_user_attendance_url(token: attendance.token, attending: true)
-      absent_link = set_user_attendance_url(token: attendance.token, attending: false)
-      GameMailer.game_reminder(user, attending_link, absent_link, self).deliver_later(wait_until: preferred_email_time)
-    end
   end
 end

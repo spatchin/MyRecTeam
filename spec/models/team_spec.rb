@@ -42,9 +42,4 @@ describe Team do
 
     it { should validate_uniqueness_of(:name) }
   end
-
-  context 'create' do
-    it 'should send an invite email to existing user'
-    it 'should send an account creation invite email to non-existing user'
-  end
 end

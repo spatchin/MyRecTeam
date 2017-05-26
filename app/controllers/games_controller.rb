@@ -39,7 +39,15 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        @game.setup_reminder_emails!
+        @game.user_attendances.includes(user: :preference).each do |attendance|
+          user = attendance.user
+          preferred_email_time = user.preference.game_email_reminder.change(month: @game.time.month, day: @game.time.day, year: @game.time.year)
+          # preferred_email_time = 15.seconds.from_now
+          attendance.generate_token!
+          attending_link = set_user_attendance_url(token: attendance.token, attending: true)
+          absent_link = set_user_attendance_url(token: attendance.token, attending: false)
+          GameMailer.game_reminder(user, attending_link, absent_link, @game).deliver_later(wait_until: preferred_email_time)
+        end
         format.html { redirect_to @game, notice: 'Game was successfully created.' }
         format.json { render :show, status: :created, location: @game }
       else

@@ -34,12 +34,4 @@ describe Game do
 
     it { should validate_presence_of(:name) }
   end
-
-  context 'create' do
-    it 'should send email reminders to players of team' do
-      team = create(:team)
-      game = create(:game)
-
-    end
-  end
 end

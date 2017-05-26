@@ -2,7 +2,7 @@ class GamePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       return scope.all if @user.admin?
-      scope.join(:user_attendances).where('user_attendances.user_id = ? OR games.user_id = ?', @user.id, @user.id)
+      scope.joins(:user_attendances).where('user_attendances.user_id = ? OR games.user_id = ?', @user.id, @user.id)
     end
   end
 
