@@ -2,7 +2,7 @@
   %h1 User: #{@user.display_name}
 
 - content_for :itembar do
-  = link_to 'Profile', profile_user_path(@user), class: 'btn btn-info'
+  = link_to 'Profile', user_profile_path(@user.username), class: 'btn btn-info'
   = link_to 'Edit', edit_user_path(@user), class: 'btn btn-default' if policy(@user).edit?
   = link_to 'Destroy', @user, class: 'btn btn-danger', method: :delete, 'data-confirm': 'Are you sure?' if policy(@user).destroy?
   = link_to 'Back', users_path, class: 'btn btn-default'

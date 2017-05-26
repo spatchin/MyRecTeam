@@ -22,9 +22,8 @@ Rails.application.routes.draw do
   resources :preferences, only: [:show, :create, :update, :destroy]
 
   devise_for :users
-  resources :users do
-    get :profile, on: :member
-  end
+  resources :users
 
+  get '/:username', to: 'users#profile', as: 'user_profile'
   root to: 'pages#home'
 end

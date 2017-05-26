@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :profile]
-  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :profile]
+  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_resource, except: [:show, :edit, :update, :destroy]
 
   def index
     @users = User.all
@@ -27,6 +27,8 @@ class UsersController < ApplicationController
   end
 
   def profile
+    @user = User.find_by(username: params[:username])
+    redirect_to '/', alert: 'User not found' if @user.nil?
   end
 
   private
