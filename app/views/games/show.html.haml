@@ -76,7 +76,7 @@
           %table.table
             - @starting_attendances.each do |t|
               %tr
-                %td= link_to t.user.display_name, profile_user_path(t.user)
+                %td= link_to t.user.display_name, user_profile_path(t.user.username)
                 - if t.attending?
                   %td.text-success= fa_icon('check lg', title: 'Attending')
                 - elsif t.absent?
@@ -88,7 +88,7 @@
           %table.table
             - @alternate_attendances.each do |t|
               %tr
-                %td= link_to t.user.display_name, profile_user_path(t.user)
+                %td= link_to t.user.display_name, user_profile_path(t.user.username)
                 - if t.attending?
                   %td.text-success= fa_icon('check lg', title: 'Attending')
                 - elsif t.absent?

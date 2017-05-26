@@ -31,17 +31,17 @@
         %p
           %strong Captain:
           %ul
-            %li= link_to @team.captain.try(:display_name), profile_user_path(@team.captain)
+            %li= link_to @team.captain.try(:display_name), user_profile_path(@team.captain.username)
         %p
           %strong Starters:
           %ul
             - @team.starters.each do |t|
-              %li= link_to t.display_name, profile_user_path(t)
+              %li= link_to t.display_name, user_profile_path(t.username)
         %p
           %strong Alternates:
           %ul
             - @team.alternates.each do |t|
-              %li= link_to t.display_name, profile_user_path(t)
+              %li= link_to t.display_name, user_profile_path(t.username)
 %hr
 .panel.panel-success
   .panel-heading
