@@ -41,6 +41,10 @@ class Member < ApplicationRecord
     touch(:accepted_at)
   end
 
+  def clear_token!
+    update(token: nil)
+  end
+
   def accepted?
     accepted_at.present?
   end

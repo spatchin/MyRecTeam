@@ -10,7 +10,14 @@
       .panel-body
         = bootstrap_form_for @game do |f|
           - if @game.pending?
-            = f.datetime_select :time, ampm: true, order: [:month, :day, :year], use_short_month: true
+            = f.datetime_select :time, ampm: true, default: @time, order: [:month, :day, :year], use_short_month: true
             = f.text_field :location
           = f.text_area :notes
           = f.submit 'Update'
+
+:javascript
+  $('#game_time_1i').val(#{@time.year});
+  $('#game_time_2i').val(#{@time.month});
+  $('#game_time_3i').val(#{@time.day});
+  $('#game_time_4i').val(#{@time.hour});
+  $('#game_time_5i').val(#{@time.min});

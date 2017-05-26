@@ -1,0 +1,11 @@
+.row
+  .col-sm-offset-3.col-sm-6
+    %p= "#{@user.display_name},"
+    %p
+      Your game, #{@game.name}, is today at #{content_tag :strong, @game.time.strftime('%l:%M %P')} in #{content_tag :strong, @game.location}
+    %hr
+    .row
+      .col-md-6
+        = link_to 'Attending', @attending_link, method: :patch, class: 'btn btn-lg btn-success'
+      .col-md-6.text-right
+        = link_to 'Not Attending', @absent_link, method: :patch, class: 'btn btn-lg btn-danger'

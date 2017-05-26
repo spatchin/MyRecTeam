@@ -7,28 +7,64 @@ feature 'Game' do
   context 'Admin' do
   end
 
-  context 'Regular user' do
+  context 'Team captain' do
     let!(:user) { regular_sign_in }
 
-    scenario "as team captain, can set games to time and location" do
+    scenario "can set games to time and location" do
       team = create(:team)
       team.members.create(user: user, role: :starter, captain: true)
       game = create(:game, team: team)
-      time = Time.current.beginning_of_hour
+      time = 1.hour.from_now.localtime
       location = 'here'
 
       visit "/games/#{game.id}"
       click_link 'Edit'
-      select time.time.strftime('%b'), from: 'game_time_2i'
+      select time.strftime('%b'), from: 'game_time_2i'
       select time.day, from: 'game_time_3i'
       select time.year, from: 'game_time_1i'
       select time.strftime('%I %p'), from: 'game_time_4i'
-      select '00', from: 'game_time_5i'
+      select time.strftime('%M'), from: 'game_time_5i'
       fill_in 'Location', with: location
       click_button 'Update'
-      expect(page).to have_content 'successfully updated'
-      expect(game.reload.attributes.slice('time', 'location').values).to eq [time, location]
+      game = game.reload
+      expect(game.time.localtime.strftime('%D %H:%M %p')).to eq time.strftime('%D %H:%M %p')
+      expect(game.location).to eq location
     end
+
+    scenario 'can change game status' do
+      team = create(:team)
+      team.members.create(user: user, role: :starter, captain: true)
+      game = create(:game, team: team, time: 2.hours.from_now)
+
+      visit "/games/#{game.id}"
+      expect(page).to have_link 'Cancel'
+      expect(page).to have_button 'Complete'
+    end
+
+    scenario 'can create game which queues game reminders to team members' do
+      team = create(:team)
+      team.members.create(user: user, role: :starter, captain: true)
+      team.starters << create_list(:user, 3)
+
+      visit '/games'
+      click_link 'New game'
+      fill_in 'Name', with: 'test'
+      fill_in 'Location', with: 'test'
+      expect(Delayed::Job.count).to eq 0
+
+      click_button 'Create Game'
+      preferred_email_times = Game.last.players.map { |u| u.preference.game_email_reminder.strftime('%I %M %p') }
+      delayed_jobs = Delayed::Job.all.map { |dj| [dj.run_at.strftime('%D'), dj.run_at.strftime('%I %M %p')] }
+      expect(delayed_jobs.map(&:last)).to eq preferred_email_times
+      expect(delayed_jobs.map(&:first).uniq).to eq [Date.today.strftime('%D')]
+    end
+
+    scenario "can report score"
+    scenario "can view team attendance for game"
+  end
+
+  context 'Regular user' do
+    let!(:user) { regular_sign_in }
 
     scenario "cannot set games to time and location" do
       team = create(:team)
@@ -76,16 +112,6 @@ feature 'Game' do
       expect(page).to_not have_link 'Complete'
     end
 
-    scenario 'as captain, can change game status' do
-      team = create(:team)
-      team.members.create(user: user, role: :starter, captain: true)
-      game = create(:game, team: team, time: 2.hours.from_now)
-
-      visit "/games/#{game.id}"
-      expect(page).to have_link 'Cancel'
-      expect(page).to have_button 'Complete'
-    end
-
     scenario 'can view game status--canceled' do
       team = create(:team)
       team.members.create(user: user, role: :starter)
@@ -104,11 +130,6 @@ feature 'Game' do
       expect(page).to have_content 'Result'
     end
 
-    scenario "as team captain, can report score" do
-
-    end
-
-    scenario "as team captain, can view team attendance for game"
     scenario "can view game status notes ('team 1 wins, team 2 forfeits, etc')"
   end
 end

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   patch '/user_attendances/:id/attend', to: 'user_attendances#attend', as: 'attend_user_attendances'
   patch '/user_attendances/:id/absent', to: 'user_attendances#absent', as: 'absent_user_attendances'
+  get '/user_attendances/set_attendance', to: 'user_attendances#set_attendance', as: 'set_user_attendance'
 
   resources :teams do
     get :edit_roster, on: :member
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
   end
 
   resources :comments, only: [:create, :update, :destroy]
+  resources :preferences, only: [:show, :create, :update, :destroy]
 
   devise_for :users
   resources :users do

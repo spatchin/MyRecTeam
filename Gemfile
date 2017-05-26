@@ -21,6 +21,7 @@ gem 'annotate'
 gem 'kaminari'
 gem 'jquery-datatables-rails', '~> 3.4.0'
 gem 'acts_as_commentable'
+gem 'delayed_job_active_record'
 
 group :development do
   gem 'web-console', '>= 3.3.0'

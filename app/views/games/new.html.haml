@@ -9,7 +9,7 @@
       .panel-body
         = bootstrap_form_for @game do |f|
           = f.text_field :name, autofocus: true
-          = f.datetime_select :time, ampm: true, default: Time.now, order: [:month, :day, :year], use_short_month: true
+          = f.datetime_select :time, ampm: true, default: 1.minute.from_now.localtime, order: [:month, :day, :year], use_short_month: true
           = f.text_field :location
           = f.select :team_id, current_user.teams.map { |t| [t.name, t.id] }
           = f.submit

@@ -114,7 +114,7 @@ class TeamsController < ApplicationController
     member.generate_token!
     accept_link = accept_invite_members_url(token: member.token)
     deny_link = deny_invite_members_url(token: member.token)
-    TeamMailer.add_player_email(accept_link, deny_link, @team, user).deliver_later # deliver_now
+    TeamMailer.add_player_email(accept_link, deny_link, @team, user).deliver_later
     redirect_to edit_roster_team_url(@team), notice: 'User was invited.'
   end
 

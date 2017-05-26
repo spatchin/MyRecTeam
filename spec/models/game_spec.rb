@@ -20,16 +20,18 @@
 #
 
 describe Game do
-  let!(:game) { create(:game) }
+  context 'model' do
+    let!(:game) { create(:game) }
 
-  subject { game }
+    subject { game }
 
-  it { should belong_to(:created_by).class_name('User').with_foreign_key('user_id') }
+    it { should belong_to(:created_by).class_name('User').with_foreign_key('user_id') }
 
-  it { should have_many(:user_attendances).dependent(:destroy) }
-  it { should have_many(:players).through(:user_attendances) }
+    it { should have_many(:user_attendances).dependent(:destroy) }
+    it { should have_many(:players).through(:user_attendances) }
 
-  it { should define_enum_for(:status) }
+    it { should define_enum_for(:status) }
 
-  it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:name) }
+  end
 end

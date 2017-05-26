@@ -58,11 +58,17 @@ class User < ApplicationRecord
   has_many :attendance_records, class_name: 'UserAttendance', dependent: :destroy
   has_many :games, through: :attendance_records
 
+  has_one :preference
+
   enum role: [:user, :vip, :admin]
   after_initialize :set_default_role, if: :new_record?
 
   validates_presence_of :role, :first_name, :last_name, :username # email is validated by devise
   validates_uniqueness_of :username # email is validated by devise
+
+  after_create do
+    self.create_preference!(game_email_reminder: '9am'.to_time.utc)
+  end
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

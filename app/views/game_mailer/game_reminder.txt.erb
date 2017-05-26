@@ -1,0 +1,7 @@
+<%= @user.display_name %>,
+
+Your game, <%= @game.name %>, is today at <%= @game.time.strftime('%l %M %P') %> at <%= @game.location %>
+
+<%= link_to 'Attending', @attending_link, method: :patch %>
+
+<%= link_to 'Not Attending', @absent_link, method: :patch %>

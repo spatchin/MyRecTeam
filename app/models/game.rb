@@ -32,6 +32,9 @@ class Game < ApplicationRecord
   after_initialize :set_default_status, if: :new_record?
 
   validates :name, :status, :time, :location, presence: true
+  # validate :time_must_be_in_the_future
+
+  scope :today, -> { where(time: Date.today.beginning_of_day..Date.today.end_of_day) }
 
   after_create do
     team.users.each do |user|
@@ -42,6 +45,12 @@ class Game < ApplicationRecord
   def set_default_status
     self.status ||= :pending
   end
+
+  # def time_must_be_in_the_future
+  #   if time.present? && time <= Time.current
+  #     errors.add(:time, 'must be in the future')
+  #   end
+  # end
 
   def created_by?(user)
     return false unless user.is_a? User

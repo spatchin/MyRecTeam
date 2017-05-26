@@ -1,0 +1,2 @@
+describe GameMailer do
+end

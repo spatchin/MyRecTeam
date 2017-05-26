@@ -9,6 +9,7 @@
 #  status     :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  token      :string
 #
 # Indexes
 #
@@ -29,5 +30,14 @@ class UserAttendance < ApplicationRecord
 
   def set_default_status
     self.status ||= :unreported
+  end
+
+  def generate_token!
+     self.token = Digest::SHA1.hexdigest([self.user_id, self,game_id, Time.now, rand].join)
+     save!
+  end
+
+  def clear_token!
+    update(token: nil)
   end
 end
