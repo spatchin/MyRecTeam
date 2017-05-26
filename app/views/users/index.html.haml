@@ -10,7 +10,7 @@
   %tbody
     - @users.each do |user|
       %tr
-        %td= link_to user.display_name, (current_user.try(:admin?) ? user : profile_user_path(user))
+        %td= link_to user.display_name, (current_user.try(:admin?) ? user : user_profile_path(user.username))
         %td= user.email
         %td= user.username
 
