@@ -5,7 +5,6 @@
 #  id          :integer          not null, primary key
 #  user_id     :integer
 #  team_id     :integer
-#  captain     :boolean          default(FALSE)
 #  role        :integer
 #  accepted_at :datetime
 #  token       :string

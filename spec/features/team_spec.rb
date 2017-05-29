@@ -29,6 +29,42 @@ feature 'Team' do
     end
   end
 
+  context 'Team Captain' do
+    let!(:user) { regular_sign_in }
+
+    scenario 'can invite existing users to join team' do
+      other_user = create(:user)
+      team = create(:team, created_by: user, captain: user)
+      team.starters << user
+      expect(team.members.count).to eq 1
+
+      visit "/teams/#{team.id}"
+      click_link 'edit-roster'
+      fill_in 'Email', with: other_user.email
+      click_button 'Send invite'
+      member = team.members.last
+      expect(page).to have_content 'Waiting to accept invite'
+      expect(team.members.count).to eq 2
+      expect(member.accepted_at).to be nil
+      expect(member.token).to_not be nil
+    end
+
+    scenario 'can invite new users to join team'
+
+    scenario 'can change user role on team'
+
+    scenario 'can remove players'
+
+    scenario 'can change players roles in team'
+
+    scenario 'can edit team profile'
+
+    scenario 'can disband team'
+
+    scenario 'cannot not modify count of wins/losses/draws for team'
+
+  end
+
   context 'Regular user' do
     let!(:user) { regular_sign_in }
 
@@ -64,22 +100,6 @@ feature 'Team' do
       expect(new_team.captain).to eq user
     end
 
-    scenario 'as team captain, can change user role on team'
-
     scenario 'can request to join teams'
-
-    scenario 'as team captain, can invite existing users to join team'
-
-    scenario 'as team captain, can invite new users to join team'
-
-    scenario 'as team captain, can remove players'
-
-    scenario 'as team captain, can change players roles in team'
-
-    scenario 'as team captain, can edit team profile'
-
-    scenario 'as team captain, can disband team'
-
-    scenario 'cannot not modify count of wins/losses/draws for team'
   end
 end

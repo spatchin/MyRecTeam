@@ -26,7 +26,7 @@
           .col-xs-6
             %h3.panel-title Roster
           .col-xs-6.text-right
-            = link_to fa_icon('edit lg'), edit_roster_team_path(@team) if policy(@team).edit_roster?
+            = link_to fa_icon('edit lg'), edit_roster_team_path(@team), id: 'edit-roster' if policy(@team).edit_roster?
       .panel-body
         %p
           %strong Captain:

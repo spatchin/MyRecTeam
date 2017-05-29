@@ -49,14 +49,13 @@ describe User do
 
   it { should have_many(:created_games).class_name('Game') }
   it { should have_many(:created_teams).class_name('Team') }
+  it { should have_many(:captained_teams).class_name('Team').with_foreign_key('captain_id') }
 
   it { should have_many(:members).dependent(:destroy) }
   it { should have_many(:starting_memberships).class_name('Member') }
   it { should have_many(:alternate_memberships).class_name('Member') }
-  it { should have_many(:captain_memberships).class_name('Member') }
   it { should have_many(:starting_teams).through(:starting_memberships).source(:team) }
   it { should have_many(:alternate_teams).through(:alternate_memberships).source(:team) }
-  it { should have_many(:captain_teams).through(:captain_memberships).source(:team) }
 
   it { should have_many(:attendance_records).class_name('UserAttendance').dependent(:destroy) }
   it { should have_many(:games).through(:attendance_records) }

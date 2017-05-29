@@ -30,11 +30,11 @@ class TeamsController < ApplicationController
   # POST /teams.json
   def create
     @team = current_user.created_teams.new(resource_params)
+    @team.captain = current_user
 
     respond_to do |format|
       if @team.save
         @team.starters << current_user
-        @team.members.last.update(captain: true)
 
         format.html { redirect_to @team, notice: 'Team was successfully created.' }
         format.json { render :show, status: :created, location: @team }
@@ -62,11 +62,8 @@ class TeamsController < ApplicationController
   def update_roster
     case params[:subaction]
     when 'update_captain'
-      if (captain_id = resource_params.dig(:roster, :captain_id)).present?
-        u = @team.users.find_by(id: captain_id)
-        return redirect_to edit_roster_team_url(@team), alert: 'Captain could not be found' if u.blank?
-
-        @team.update(captain: u)
+      unless @team.update(captain_id: resource_params.dig(:roster, :captain_id))
+        redirect_to edit_roster_team_url(@team), alert: 'Captain could not be found' and return
       end
     when 'update_players'
       player_ids = resource_params.dig(:roster, :player_ids)
@@ -74,7 +71,7 @@ class TeamsController < ApplicationController
       if [player_ids, player_roles].all?(&:present?)
         player_ids.zip(player_roles).each do |id, role|
           m = @team.members.find_by(user_id: id)
-          return redirect_to edit_roster_team_url(@team), alert: 'Player could not be found' if m.blank?
+          redirect_to edit_roster_team_url(@team), alert: 'Player could not be found' and return if m.blank?
 
           m.update(role: role) if Member.roles.keys.include?(role)
         end
@@ -135,6 +132,6 @@ class TeamsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def resource_params
-    params.require(:team).permit(:name, :description, :location, :email, roster: [:captain_id, player_ids: [], roles: []])
+    params.require(:team).permit(:name, :description, :location, :email, :captain_id, roster: [:captain_id, player_ids: [], roles: []])
   end
 end

@@ -11,8 +11,8 @@ feature 'Game' do
     let!(:user) { regular_sign_in }
 
     scenario "can set games to time and location" do
-      team = create(:team)
-      team.members.create(user: user, role: :starter, captain: true)
+      team = create(:team, captain: user)
+      team.starters << user
       game = create(:game, team: team)
       time = 1.hour.from_now.localtime
       location = 'here'
@@ -32,8 +32,8 @@ feature 'Game' do
     end
 
     scenario 'can change game status' do
-      team = create(:team)
-      team.members.create(user: user, role: :starter, captain: true)
+      team = create(:team, captain: user)
+      team.starters << user
       game = create(:game, team: team, time: 2.hours.from_now)
 
       visit "/games/#{game.id}"
@@ -42,8 +42,8 @@ feature 'Game' do
     end
 
     scenario 'can create game which queues game reminders to team members' do
-      team = create(:team)
-      team.members.create(user: user, role: :starter, captain: true)
+      team = create(:team, captain: user)
+      team.starters << user
       team.starters << create_list(:user, 3)
 
       visit '/games'

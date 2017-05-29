@@ -17,7 +17,7 @@ if Rails.env.development?
     team = FactoryGirl.create(:team)
     team.starters = users[0...5]
     team.alternates = users[5...10]
-    team.members.find_by(user: users[0]).update(captain: true)
+    team.captain = users[0]
     team.members.each(&:accept!)
     team.save!
     p team

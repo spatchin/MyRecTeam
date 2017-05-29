@@ -15,9 +15,9 @@
           %h3.panel-title Captain
         .panel-body
           = f.hidden_field 'subaction', value: 'update_captain'
-          = f.select "team[roster][captain_id]", options_for_select(@team.users.map { |p| [p.display_name, p.id] }, @team.captain.id.to_s), label: 'Captain'
+          = f.select "team[roster][captain_id]", options_for_select(@team.users.map { |p| [p.display_name, p.id] }, @team.captain.try(:id).try(:to_s)), label: 'Captain'
         .panel-footer
-          = f.submit
+          = f.submit 'Save', id: 'save-captain'
   .col-md-6
     = bootstrap_form_tag url: add_player_team_path(@team), layout: :horizontal, label_col: 'col-sm-2', control_col: 'col-sm-8' do |f|
       .panel.panel-info
@@ -43,6 +43,6 @@
             - else
               = select_tag "team[roster][roles][]", options_for_select([['Starter', 'starter'], ['Alternate', 'alternate']], m.role), class: 'form-control'
           .col-sm-1
-            = link_to fa_icon('trash lg'), remove_player_team_path(@team, team: {roster: {player_ids: [m.user_id]}}), method: :post, class: 'btn btn-danger' if policy(@team).remove_player? && !m.captain?
+            = link_to fa_icon('trash lg'), remove_player_team_path(@team, team: {roster: {player_ids: [m.user_id]}}), method: :post, class: 'btn btn-danger' if policy(@team).remove_player? && @team.captain != m.user
     .panel-footer
       = submit_tag 'Save', class: 'btn btn-primary'

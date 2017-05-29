@@ -58,19 +58,18 @@ ActiveRecord::Schema.define(version: 20170523225024) do
   create_table "members", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
-    t.boolean  "captain",     default: false
     t.integer  "role"
     t.datetime "accepted_at"
     t.string   "token"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.index ["team_id"], name: "index_members_on_team_id"
     t.index ["user_id"], name: "index_members_on_user_id"
   end
 
   create_table "preferences", force: :cascade do |t|
     t.integer  "user_id"
-    t.time     "game_email_reminder", default: '2000-01-01 13:00:00'
+    t.time     "game_email_reminder", default: '2000-01-01 14:00:00'
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
     t.index ["user_id"], name: "index_preferences_on_user_id"
@@ -84,8 +83,10 @@ ActiveRecord::Schema.define(version: 20170523225024) do
     t.integer  "losses"
     t.integer  "draws"
     t.integer  "user_id"
+    t.integer  "captain_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["captain_id"], name: "index_teams_on_captain_id"
     t.index ["user_id"], name: "index_teams_on_user_id"
   end
 

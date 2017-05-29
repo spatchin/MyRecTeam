@@ -23,7 +23,7 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def edit?
-    @user.try(:admin?) || @record.is_key_person?(@user)
+    @user.try(:admin?) || @record.captain?(@user)
   end
 
   def update?
