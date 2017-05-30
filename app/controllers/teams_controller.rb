@@ -96,12 +96,15 @@ class TeamsController < ApplicationController
 
   def add_player
     # create member or resend invite if member already exists
-    user = User.find_by(email: resource_params[:email].try(:strip).try(:downcase))
+    email = resource_parmas[:email].try(:strip).try(:downcase)
+    user = User.find_by(email: email)
+
+    if @team.users.include?(user)
+      return redirect_to edit_roster_team_url(@team), alert: 'User is already on the team.'
+    end
 
     if user.blank?
-      return redirect_to edit_roster_team_url(@team), alert: 'User could not be found.'
-    elsif @team.users.include?(user)
-      return redirect_to edit_roster_team_url(@team), alert: 'User is already on the team.'
+      User.invite!({email: email}, current_user)
     end
 
     @team.alternates << user
