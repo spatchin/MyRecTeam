@@ -96,24 +96,22 @@ class TeamsController < ApplicationController
 
   def add_player
     # create member or resend invite if member already exists
-    email = resource_params[:email].try(:strip).try(:downcase)
-    user = User.find_by(email: email)
+    user = User.find_by(email: resource_params[:email].try(:strip).try(:downcase))
 
-    if user.nil?
-      user = User.invite!(email: email)
-      @team.alternates << user
-    elsif @team.members.exist?(user: user)
+    if user.blank?
+      return redirect_to edit_roster_team_url(@team), alert: 'User could not be found.'
+    elsif @team.users.include?(user)
       return redirect_to edit_roster_team_url(@team), alert: 'User is already on the team.'
-    else # user exists in application
-      @team.alternates << user
-      member = @team.members.last
-      # send email with link that updates member accepted at
-      member.generate_token!
-      accept_link = accept_invite_members_url(token: member.token)
-      deny_link = deny_invite_members_url(token: member.token)
-      TeamMailer.add_player_email(accept_link, deny_link, @team, user).deliver_later
     end
 
+    @team.alternates << user
+    member = @team.members.last
+
+    # send email with link that updates member accepted at
+    member.generate_token!
+    accept_link = accept_invite_members_url(token: member.token)
+    deny_link = deny_invite_members_url(token: member.token)
+    TeamMailer.add_player_email(accept_link, deny_link, @team, user).deliver_later
     redirect_to edit_roster_team_url(@team), notice: 'User was invited.'
   end
 
