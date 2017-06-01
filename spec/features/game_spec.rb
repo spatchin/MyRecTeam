@@ -82,8 +82,8 @@ feature 'Game' do
 
     scenario "can report their attendance as attending" do
       team = create(:team)
-      team.members.create(user: user, role: :starter)
-      game = create(:game, team: team, time: 2.hours.from_now)
+      team.starters << user
+      game = create(:game, team: team, time: 1.hour.from_now.localtime)
 
       visit "/games/#{game.id}"
       click_link 'Attending'
@@ -93,8 +93,8 @@ feature 'Game' do
 
     scenario "can report their attendance as absent" do
       team = create(:team)
-      team.members.create(user: user, role: :starter)
-      game = create(:game, team: team, time: 2.hours.from_now)
+      team.starters << user
+      game = create(:game, team: team, time: 1.hour.from_now.localtime)
 
       visit "/games/#{game.id}"
       click_link 'Not Attending'
@@ -104,8 +104,8 @@ feature 'Game' do
 
     scenario 'cannot change game status' do
       team = create(:team)
-      team.members.create(user: user, role: :starter)
-      game = create(:game, team: team, time: 2.hours.from_now)
+      team.starters << user
+      game = create(:game, team: team, time: 1.hour.from_now.localtime)
 
       visit "/games/#{game.id}"
       expect(page).to_not have_link 'Cancel'
@@ -114,8 +114,8 @@ feature 'Game' do
 
     scenario 'can view game status--canceled' do
       team = create(:team)
-      team.members.create(user: user, role: :starter)
-      game = create(:game, :canceled, team: team, time: 2.hours.from_now)
+      team.starters << user
+      game = create(:game, :canceled, team: team, time: 1.hour.ago.localtime)
 
       visit "/games/#{game.id}"
       expect(page).to have_content 'Canceled'
@@ -123,13 +123,23 @@ feature 'Game' do
 
     scenario 'can view game status--complete' do
       team = create(:team)
-      team.members.create(user: user, role: :starter)
-      game = create(:game, :win, team: team, time: 2.hours.from_now)
+      team.starters << user
+      game = create(:game, :win, team: team, time: 1.hour.ago.localtime)
 
       visit "/games/#{game.id}"
       expect(page).to have_content 'Result'
     end
 
-    scenario "can view game status notes ('team 1 wins, team 2 forfeits, etc')"
+    scenario 'can comment on game' do
+      team = create(:team)
+      team.starters << user
+      game = create(:game, team: team, time: 1.hour.from_now.localtime)
+
+      visit "/games/#{game.id}"
+      expect(page).to have_content 'Comments'
+      fill_in 'comment-comment', with: 'test commentz'
+      click_button 'submit-comment'
+      expect(page).to have_content 'test commentz'
+    end
   end
 end

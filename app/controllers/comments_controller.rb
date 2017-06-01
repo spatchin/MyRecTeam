@@ -6,11 +6,9 @@ class CommentsController < ApplicationController
     @comment = Comment.new(resource_params)
     @comment.commenter = current_user
 
-    # if @comment.save
-    #   flash[:notice] = 'Comment was successfully created.'
-    # else
-    #   flash[:alert] = 'Comment could not be created.'
-    # end
+    if !@comment.save
+      flash[:alert] = 'Comment could not be saved.'
+    end
 
     redirect_to @comment.commentable
   end

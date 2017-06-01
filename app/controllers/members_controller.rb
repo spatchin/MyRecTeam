@@ -1,7 +1,12 @@
 class MembersController < ApplicationController
+  # don't check authorization in order to be able to accept/deny through email
   def accept_invite
-    @member = Member.find_by(token: params[:token])
-    redirect_to root_url, alert: 'Invitation could not be accepted.' if @member.blank?
+    @member = if params[:token].present?
+                @member = Member.find_by(token: params[:token])
+              else
+                nil
+              end
+    return redirect_to root_url, alert: 'Invitation could not be accepted.' if @member.nil?
 
     @member.accept!
     @member.clear_token!
@@ -9,16 +14,15 @@ class MembersController < ApplicationController
   end
 
   def deny_invite
-    @member = Member.find_by(token: params[:token])
-    redirect_to root_url, alert: 'Invitation could not be denied.' if @member.blank?
+    @member = if params[:token].present?
+                @member = Member.find_by(token: params[:token])
+              else
+                nil
+              end
+    return redirect_to root_url, alert: 'Invitation could not be denied.' if @member.nil?
 
     @member.destroy
-    redirect_to root_url, notice: 'Invitation denied.'
-  end
-
-  private
-
-  def resource_params
-    params.require(:member).permit(:role, :accepted_at, :token)
+    flash[:notice] = 'Invitation denied.'
+    redirect_to user_signed_in? ?  teams_url : root_url
   end
 end

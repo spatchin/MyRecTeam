@@ -43,13 +43,23 @@ feature 'Team' do
       fill_in 'Email', with: other_user.email
       click_button 'Send invite'
       member = team.members.last
-      expect(page).to have_content 'Waiting to accept invite'
+      expect(page).to have_content 'Invited'
       expect(team.members.count).to eq 2
       expect(member.accepted_at).to be nil
       expect(member.token).to_not be nil
     end
 
-    scenario 'can invite new users to join team'
+    scenario 'can invite new users to join team' do
+      team = create(:team, created_by: user, captain: user)
+      email = 'fake@email.com'
+      expect(User.find_by(email: email)).to be nil
+
+      visit "/teams/#{team.id}"
+      click_link 'edit-roster'
+      fill_in 'Email', with: 'fake@email.com'
+      click_button 'Send invite'
+      expect(User.find_by(email: email)).to_not be nil
+    end
 
     scenario 'can change user role on team'
 
@@ -98,6 +108,20 @@ feature 'Team' do
       expect(new_team.name).to eq attributes[:name]
       expect(new_team.created_by).to eq user
       expect(new_team.captain).to eq user
+    end
+
+    scenario 'can accept team invite after making an account from invitation' do
+      team = create(:team)
+      # all the stuff that would hapepn when user is invited
+      team.alternates << user
+      member = team.members.last
+      member.generate_token!
+      member.touch(:invited_at)
+
+      visit '/teams'
+      expect(page).to have_content team.name
+      expect(page).to have_link 'Accept invite'
+      expect(page).to have_link 'Decline invite'
     end
 
     scenario 'can request to join teams'

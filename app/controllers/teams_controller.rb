@@ -1,12 +1,13 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :add_player, :remove_player]
-  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :add_player, :remove_player]
+  before_action :set_and_authorize_resource, except: [:index, :new, :create]
+  before_action :authorize_resource, only: [:index, :new, :create]
 
   # GET /teams
   # GET /teams.json
   def index
-    @teams = policy_scope(Team).page(params[:page])
+    @teams = policy_scope(Team).includes(:members).page(params[:page])
+    @tokens = current_user.members.pluck(:team_id, :token).reject { |i,j| j.nil? }.to_h
   end
 
   # GET /teams/1
@@ -96,22 +97,23 @@ class TeamsController < ApplicationController
 
   def add_player
     # create member or resend invite if member already exists
-    user = User.find_by(email: resource_params[:email].try(:strip).try(:downcase))
+    email = resource_params[:email].try(:strip).try(:downcase)
+    user = User.find_by(email: email)
 
-    if user.blank?
-      return redirect_to edit_roster_team_url(@team), alert: 'User could not be found.'
-    elsif @team.users.include?(user)
+    if user.nil?
+      user = User.invite!({email: email}, current_user)
+    elsif @team.members.exists?(user: user)
       return redirect_to edit_roster_team_url(@team), alert: 'User is already on the team.'
     end
 
     @team.alternates << user
     member = @team.members.last
-
     # send email with link that updates member accepted at
     member.generate_token!
     accept_link = accept_invite_members_url(token: member.token)
     deny_link = deny_invite_members_url(token: member.token)
     TeamMailer.add_player_email(accept_link, deny_link, @team, user).deliver_later
+    member.touch(:invited_at)
     redirect_to edit_roster_team_url(@team), notice: 'User was invited.'
   end
 

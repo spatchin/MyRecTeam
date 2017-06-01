@@ -1,3 +1,7 @@
 %tr
   %td= link_to(team.name, team)
   %td= team.location
+  %td.text-center
+    - if team.invited_user?(current_user)
+      = link_to fa_icon('check'), accept_invite_members_url(token: @tokens[team.id]), style: 'padding: 0 10px;', class: 'text-success', title: 'Accept invite'
+      = link_to fa_icon('times'), deny_invite_members_url(token: @tokens[team.id]), style: 'padding: 0 10px;', class: 'text-danger', title: 'Decline invite'

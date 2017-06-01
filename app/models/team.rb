@@ -43,12 +43,14 @@ class Team < ApplicationRecord
   end
 
   def created_by?(user)
-    return false unless user.is_a? User
-    created_by == user
+    user.is_a?(User) && created_by == user
   end
 
   def captain?(user)
-    return false unless user.is_a? User
-    captain == user
+    user.is_a?(User) && captain == user
+  end
+
+  def invited_user?(user)
+    user.is_a?(User) && members.exists?(['members.user_id = ? AND members.token IS NOT NULL', user.id])
   end
 end

@@ -79,7 +79,7 @@ class User < ApplicationRecord
   end
 
   def display_name
-    "#{first_name} #{last_name}"
+    [first_name, last_name].all?(&:present?) ? "#{first_name} #{last_name}" : nil
   end
 
   def captain?

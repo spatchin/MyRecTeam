@@ -2,7 +2,7 @@ class TeamPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       return scope.all if @user.admin?
-      scope.joins(:members).where('members.user_id = ? OR teams.user_id = ?', @user.id, @user.id)
+      scope.joins(:members).where('members.user_id = :q OR teams.user_id = :q', q: @user.id)
     end
   end
 
