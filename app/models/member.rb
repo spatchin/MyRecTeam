@@ -6,6 +6,7 @@
 #  user_id     :integer
 #  team_id     :integer
 #  role        :integer
+#  invited_at  :datetime
 #  accepted_at :datetime
 #  token       :string
 #  created_at  :datetime         not null

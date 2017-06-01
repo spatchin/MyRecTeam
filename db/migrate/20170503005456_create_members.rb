@@ -4,6 +4,7 @@ class CreateMembers < ActiveRecord::Migration[5.0]
       t.belongs_to :user
       t.belongs_to :team
       t.integer :role
+      t.datetime :invited_at
       t.datetime :accepted_at
       t.string :token
 

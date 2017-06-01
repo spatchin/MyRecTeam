@@ -1,12 +1,13 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_and_authorize_resource, only: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :add_player, :remove_player]
-  before_action :authorize_resource, except: [:show, :edit, :update, :destroy, :edit_roster, :update_roster, :add_player, :remove_player]
+  before_action :set_and_authorize_resource, except: [:index, :new, :create]
+  before_action :authorize_resource, only: [:index, :new, :create]
 
   # GET /teams
   # GET /teams.json
   def index
-    @teams = policy_scope(Team).page(params[:page])
+    @teams = policy_scope(Team).includes(:members).page(params[:page])
+    @tokens = current_user.members.pluck(:team_id, :token).reject { |i,j| j.nil? }.to_h
   end
 
   # GET /teams/1
@@ -112,6 +113,7 @@ class TeamsController < ApplicationController
     accept_link = accept_invite_members_url(token: member.token)
     deny_link = deny_invite_members_url(token: member.token)
     TeamMailer.add_player_email(accept_link, deny_link, @team, user).deliver_later
+    member.touch(:invited_at)
     redirect_to edit_roster_team_url(@team), notice: 'User was invited.'
   end
 

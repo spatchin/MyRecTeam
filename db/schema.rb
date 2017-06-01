@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20170523225024) do
     t.integer  "user_id"
     t.integer  "team_id"
     t.integer  "role"
+    t.datetime "invited_at"
     t.datetime "accepted_at"
     t.string   "token"
     t.datetime "created_at",  null: false
