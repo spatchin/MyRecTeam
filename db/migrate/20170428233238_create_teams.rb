@@ -7,8 +7,8 @@ class CreateTeams < ActiveRecord::Migration[5.0]
       t.integer :wins
       t.integer :losses
       t.integer :draws
-      t.belongs_to :user
-      t.belongs_to :captain
+      t.belongs_to :user, foreign_key: true
+      t.belongs_to :captain, foreign_key: true
 
       t.timestamps
     end

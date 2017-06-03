@@ -6,8 +6,8 @@ class CreateGames < ActiveRecord::Migration[5.0]
       t.string :location
       t.text :notes
       t.integer :status
-      t.belongs_to :user
-      t.belongs_to :team
+      t.belongs_to :user, foreign_key: true
+      t.belongs_to :team, foreign_key: true
 
       t.timestamps
     end
