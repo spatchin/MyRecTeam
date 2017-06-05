@@ -8,12 +8,11 @@
         %span.icon-bar
       %a.navbar-brand{href: "/"} RecTime
     .collapse.navbar-collapse#nav-links
-      %ul.nav.navbar-nav.navbar-left
-        - if current_user
-          %li= link_to 'TEAMS', teams_path
-          %li= link_to 'GAMES', games_path
-          %li= link_to 'USERS', users_path
       %ul.nav.navbar-nav.navbar-right
+        - if current_user
+          %li{class: ('active' if controller_name == 'teams')}= link_to 'TEAMS', teams_path if policy(Team).index?
+          %li{class: ('active' if controller_name == 'games')}= link_to 'GAMES', games_path if policy(Game).index?
+          %li{class: ('active' if controller_name == 'users')}= link_to 'USERS', users_path if policy(User).index?
         - if user_signed_in?
           %li.dropdown
             %a.dropdown-toggle{"data-toggle": "dropdown", href: "#"}
