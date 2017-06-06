@@ -8,17 +8,18 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body{data: {controller: params[:controller], action: params[:action]}}
-    %header
-      = render 'layouts/navigation'
+    = render "layouts/nav/#{@nav || 'default'}"
     %main{role: "main"}
-      .container
+      %div{class: ('container' unless @no_container)}
         - if content_for?(:pagetop)
           .page-header= yield :pagetop
         - elsif content_for?(:pagetitle) || content_for?(:itembar)
           .page-header
             .row
-              .col-xs-6= yield :pagetitle if content_for?(:pagetitle)
-              .col-xs-6#item-bar.text-right= yield :itembar if content_for?(:itembar)
+              .col-xs-6
+                = yield :pagetitle if content_for?(:pagetitle)
+              .col-xs-6#item-bar.text-right
+                = yield :itembar if content_for?(:itembar)
         = render 'layouts/messages'
         = yield
     %footer
