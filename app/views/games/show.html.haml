@@ -1,5 +1,5 @@
 - content_for :pagetitle do
-  %h1 Game: #{@game.name}
+  %h1 #{@game.name}
 - content_for :itembar do
   = link_to 'Cancel', cancel_game_path(@game), method: :patch, class: 'btn btn-danger' if policy(@game).cancel?
   - if policy(@game).complete?

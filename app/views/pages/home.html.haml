@@ -1,5 +1,5 @@
 - @no_container = true
-- @nav = 'intro'
+- @nav = 'inverted'
 
 .jumbotron
   .container
@@ -19,20 +19,30 @@
         %p= fa_icon 'search 2x'
         %h3 Step 3
         %p Find your game
-    .row{style: 'margin-top: 50px;'}
-      .col-sm-5.text-right
-        = link_to 'Sign up', '#', class: 'btn btn-primary', style: 'width: 100px'
-      .col-sm-2
-        &nbsp;
-      .col-sm-5
-        = link_to 'Log In', '#', class: 'btn btn-success', style: 'width: 100px'
+    - if current_user
+      .row{style: 'margin-top: 50px;'}
+        .col-sm-5.text-center
+          = link_to 'Teams', teams_path, class: 'btn btn-primary btn-home'
+        .col-sm-2
+          &nbsp;
+        .col-sm-5.text-center
+          = link_to 'Games', games_path, class: 'btn btn-success btn-home'
+    - else
+      .row{style: 'margin-top: 50px;'}
+        .col-sm-5.text-center
+          = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary btn-home'
+        .col-sm-2
+          &nbsp;
+        .col-sm-5.text-center
+          = link_to 'Log In', new_user_session_path, class: 'btn btn-success btn-home'
 
 :scss
   .jumbotron {
-    height: 100%;
+    height: 100vh;
     background-image: url('img/softball.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+    margin: 0;
 
     p, h1, h2, h3 {
       color: white;

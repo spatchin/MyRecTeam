@@ -4,7 +4,7 @@
   = link_to 'New team', new_team_path, class: 'btn btn-success' if policy(Team).new?
 
 .row
-  .col-md-8
+  .col-md-9
     %table.table#team{style: 'width:100%;'}
       %thead
         %tr
@@ -17,5 +17,5 @@
   .col-xs-4
     .page-info{style: 'margin: 20px 0;'}
       = page_entries_info @teams
-  .col-xs-4.text-right
+  .col-xs-5.text-right
     = paginate @teams, remote: true
