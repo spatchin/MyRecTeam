@@ -16,34 +16,40 @@ variables:
 # Cache gems in between builds
 cache:
   paths:
-    - vendor/ruby
-
+    # - vendor/ruby
+    - vendor
+    
 # This is a basic example for a gem or script which doesn't use
 # services such as redis or postgres
 before_script:
   - ruby -v                                   # Print out ruby version for debugging
   # Uncomment next line if your rails app needs a JS runtime:
-  - apt-get update -q && apt-get install nodejs -yqq
+  - apt-get update -q 
+  - apt-get install nodejs -yqq
   - gem install bundler  --no-ri --no-rdoc    # Bundler is not installed with the image
   - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
 
-rspec:
+test:
   script:
-  - rspec spec
-
-rails:
-  variables:
-    #DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
-  script:
-  - bundle exec rake db:migrate
-  - bundle exec rake db:seed
+  - bundle exec rake db:create RAILS_ENV=test
   - bundle exec rspec
+
+#staging:
+#  type: deploy
+#  environment: production
+#  script:
+#  - gem install dpl
+#  - dpl --provider=heroku --app=gitlab-ci-ruby-test-staging --api-key=$HEROKU_STAGING_API_KEY
+#  only:
+#  - master
 
 # This deploy job uses a simple deploy flow to Heroku, other providers, e.g. AWS Elastic Beanstalk
 # are supported too: https://github.com/travis-ci/dpl
-deploy:
-  type: deploy
-  environment: production
-  script:
-  - gem install dpl
-  - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_PRODUCTION_KEY
+#production:
+#  type: deploy
+#  environment: production
+#  script:
+#  - gem install dpl
+#  - dpl --provider=heroku --app=gitlab-ci-ruby-test-prod --api-key=$HEROKU_PRODUCTION_API_KEY
+#  only:
+#  - tags
