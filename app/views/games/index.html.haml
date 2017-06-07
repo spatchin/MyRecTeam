@@ -4,7 +4,7 @@
   = link_to 'New game', new_game_path, class: 'btn btn-success' if policy(Game).new?
 
 .row
-  .col-md-8
+  .col-md-9
     %table.table#game{style: 'width:100%;'}
       %thead
         %tr
@@ -17,5 +17,5 @@
   .col-xs-4
     .page-info{style: 'margin: 20px 0;'}
       = page_entries_info @games
-  .col-xs-4.text-right
+  .col-xs-5.text-right
     = paginate @games, remote: true

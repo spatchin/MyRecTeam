@@ -1,5 +1,5 @@
 - content_for :pagetitle do
-  %h1 Team: #{@team.name}
+  %h1 #{@team.name}
 - content_for :itembar do
   = link_to 'Edit', edit_team_path(@team), class: 'btn btn-default' if policy(@team).edit?
   = link_to 'Back', :back, class: 'btn btn-default' if policy(@team).index?

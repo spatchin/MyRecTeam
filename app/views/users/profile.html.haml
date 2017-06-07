@@ -1,5 +1,5 @@
 - content_for :pagetitle do
-  %h1 Profile for: #{@user.display_name}
+  %h1 #{@user.username}
 
 - content_for :itembar do
   = link_to 'Edit', edit_user_registration_path, class: 'btn btn-default' if @user == current_user
@@ -18,6 +18,9 @@
         %p
           %strong Email:
           = @user.email
+        %p
+          %strong Phone:
+          = @user.phone
   .col-sm-6
     .panel.panel-info
       .panel-heading
@@ -27,7 +30,7 @@
           %p
             %strong= link_to m.team.name, m.team
             %br
-            = '<strong>Captain</strong> /'.html_safe if m.captain?
+            = '<strong>Captain</strong> /'.html_safe if m.team.captain == @user
             = m.role.titleize
 .panel.panel-success
   .panel-heading

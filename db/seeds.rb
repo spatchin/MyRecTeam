@@ -24,6 +24,6 @@ if Rails.env.development?
   end
 
   FactoryGirl.create(:game, team: Team.all.sample, time: 1.day.ago)
-  FactoryGirl.create(:game, team: Team.all.sample, time: Time.now)
+  FactoryGirl.create(:game, team: Team.all.sample, time: 1.hour.from_now)
   FactoryGirl.create(:game, team: Team.all.sample, time: 1.day.from_now)
 end
