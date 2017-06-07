@@ -16,22 +16,20 @@ variables:
 # Cache gems in between builds
 cache:
   paths:
-    # - vendor/ruby
-    - vendor
+    - vendor/ruby
+    #- vendor
     
 test:
   script:
   - apt-get update -qy
   - apt-get install -y nodejs
   - gem install bundler --no-ri --no-rdoc    # Bundler is not installed with the image
-  #- bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
-  - bundle install --path /vendor  
+  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
   - bundle exec rake db:create RAILS_ENV=test
   - bundle exec rspec
 
 #staging:
 #  type: deploy
-#  environment: production
 #  script:
 #  - gem install dpl
 #  - dpl --provider=heroku --app=gitlab-ci-ruby-test-staging --api-key=$HEROKU_STAGING_API_KEY
@@ -42,7 +40,6 @@ test:
 # are supported too: https://github.com/travis-ci/dpl
 #production:
 #  type: deploy
-#  environment: production
 #  script:
 #  - gem install dpl
 #  - dpl --provider=heroku --app=gitlab-ci-ruby-test-prod --api-key=$HEROKU_PRODUCTION_API_KEY
