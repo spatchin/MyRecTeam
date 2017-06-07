@@ -36,6 +36,15 @@ group :development do
   gem "letter_opener"
 end
 
+group :test do
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'launchy'
+  gem 'selenium-webdriver'
+  gem 'poltergeist'
+  gem 'shoulda-matchers', '~> 3.0', require: false
+end
+
 group :development, :test do
   gem 'sqlite3'
   gem 'byebug', platform: :mri
@@ -47,13 +56,4 @@ end
 
 group :production do
   gem 'pg'
-end
-
-group :test do
-  gem 'capybara'
-  gem 'database_cleaner'
-  gem 'launchy'
-  gem 'selenium-webdriver'
-  gem 'poltergeist'
-  gem 'shoulda-matchers', '~> 3.0', require: false
 end

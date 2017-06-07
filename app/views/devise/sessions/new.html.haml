@@ -5,8 +5,8 @@
         %h1.panel-title Sign in
       .panel-body
         = bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form'}) do |f|
-          = f.text_field :email, autofocus: true, icon: 'user', hide_label: true, placeholder: 'Email'
-          = f.password_field :password, icon: 'lock', hide_label: true, placeholder: 'Password' if devise_mapping.recoverable?
+          = f.text_field :email, autofocus: true, append: fa_icon('user'), hide_label: true, placeholder: 'Email'
+          = f.password_field :password, append: fa_icon('lock'), hide_label: true, placeholder: 'Password' if devise_mapping.recoverable?
           = f.check_box :remember_me if devise_mapping.rememberable?
           = f.submit 'Sign in', class: 'btn btn-success btn-block'
         .row{style: 'padding-top: 10px;'}
