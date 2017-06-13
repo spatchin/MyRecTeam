@@ -1,4 +1,4 @@
-class CreateUserAttendances < ActiveRecord::Migration[5.0]
+class CreateUserAttendances < ActiveRecord::Migration[5.1]
   def change
     create_table :user_attendances do |t|
       t.belongs_to :game, foreign_key: true

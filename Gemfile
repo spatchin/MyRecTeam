@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails', '~> 5.1.0', '>= 5.1.0.1'
 gem 'puma', '~> 3.0'
 gem 'sass-rails', '>= 3.2'
 gem 'uglifier', '>= 1.3.0'
@@ -37,7 +37,8 @@ group :development do
 end
 
 group :development, :test do
-  gem 'sqlite3'
+  # gem 'sqlite3'
+  gem 'pg'
   gem 'byebug', platform: :mri
   gem 'factory_girl_rails'
   gem 'faker'
@@ -55,5 +56,5 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
   gem 'poltergeist'
-  gem 'shoulda-matchers', '~> 3.0', require: false
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
 end

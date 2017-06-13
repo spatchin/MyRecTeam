@@ -13,15 +13,15 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :string
 #  last_sign_in_ip        :string
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  first_name             :string
 #  last_name              :string
 #  username               :string
-#  confirmation_token     :string
-#  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string
 #  role                   :integer
 #  invitation_token       :string
 #  invitation_created_at  :datetime
@@ -35,11 +35,13 @@
 #
 # Indexes
 #
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_invitation_token      (invitation_token) UNIQUE
-#  index_users_on_invitations_count     (invitations_count)
-#  index_users_on_invited_by_id         (invited_by_id)
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_confirmation_token                 (confirmation_token) UNIQUE
+#  index_users_on_email                              (email) UNIQUE
+#  index_users_on_invitation_token                   (invitation_token) UNIQUE
+#  index_users_on_invitations_count                  (invitations_count)
+#  index_users_on_invited_by_id                      (invited_by_id)
+#  index_users_on_invited_by_type_and_invited_by_id  (invited_by_type,invited_by_id)
+#  index_users_on_reset_password_token               (reset_password_token) UNIQUE
 #
 
 FactoryGirl.define do
