@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails', '~> 5.1.0', '>= 5.1.0.1'
 gem 'puma', '~> 3.0'
 gem 'sass-rails', '>= 3.2'
 gem 'uglifier', '>= 1.3.0'
@@ -10,7 +10,7 @@ gem 'jquery-ui-rails'
 gem 'jbuilder', '~> 2.5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bootstrap-sass'
-gem 'devise',           '~> 4.2'
+gem 'devise'
 gem 'devise_invitable', '~> 1.7.0'
 gem 'haml-rails'
 gem 'pundit'
@@ -42,7 +42,7 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
   gem 'poltergeist'
-  gem 'shoulda-matchers', '~> 3.0', require: false
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
 end
 
 group :development, :test do
