@@ -25,11 +25,11 @@ before_script:
   - ruby -v
   - gem install bundler --no-ri --no-rdoc
   - bundle install -j $(nproc) --path /vendor
-  # - cp config/database.yml.gitlab config/database.yml
-  - RAILS_ENV=test bundle exec rake db:create db:grate
+  - cp config/database.yml.gitlab config/database.yml
 
 test:
   script:
+  - RAILS_ENV=test bundle exec rake db:create db:migrate
   - bundle exec rspec
 
 #staging:
