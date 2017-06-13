@@ -18,14 +18,18 @@ cache:
   paths:
     - vendor/ruby
     #- vendor
-    
+
+before_script:
+  - apt-get update -qq && apt-get install -y -qq postgresql postgresql-contrib libpq-dev cmake
+  - apt-get install -y nodejs
+  - ruby -v
+  - gem install bundler --no-ri --no-rdoc
+  - bundle install -j $(nproc) --path vendor
+  # - cp config/database.yml.gitlab config/database.yml
+  - RAILS_ENV=test bundle exec rake db:create db:grate
+
 test:
   script:
-  - apt-get update -qy
-  - apt-get install -y nodejs
-  - gem install bundler --no-ri --no-rdoc    # Bundler is not installed with the image
-  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
-  - bundle exec rake db:create RAILS_ENV=test
   - bundle exec rspec
 
 #staging:
