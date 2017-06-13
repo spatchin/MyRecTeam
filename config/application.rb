@@ -19,10 +19,12 @@ module MyRecTeam
         request_specs: false
       g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
+    # # Initialize configuration defaults for originally generated Rails version.
+    # config.load_defaults 5.1
 
     # default feature in Rails 5.1
     # added to suppress deprication warning, 5/22
-    config.active_record.time_zone_aware_types = [:datetime, :time]
+    # config.active_record.time_zone_aware_types = [:datetime, :time]
 
     config.active_job.queue_adapter = :delayed_job
 
