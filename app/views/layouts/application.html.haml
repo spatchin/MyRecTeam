@@ -2,6 +2,7 @@
 %html{lang: 'en'}
   %head
     %title= content_for?(:title) ? yield(:title) : 'MyRecTeam'
+    =favicon_link_tag
 
     %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}
     %meta{name: "description", content: "#{content_for?(:description) ? yield(:description) : 'My Rec Team'}"}
