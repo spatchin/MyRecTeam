@@ -11,20 +11,20 @@ services:
   - postgres:latest
 
 variables:
-  POSTGRES_DB: mrt_production
+  POSTGRES_DB: test_db
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: ""
 
 # Cache gems in between builds
 cache:
   paths:
-    - vendor/ruby
-    #- vendor
+    - vendor
 
 before_script:
-  - apt-get update -qq && apt-get install -y -qq postgresql postgresql-contrib libpq-dev cmake
-  - apt-get install -y nodejs
+  - apt-get update -qy && apt-get install -y nodejs
   - ruby -v
   - gem install bundler --no-ri --no-rdoc
-  - bundle install -j $(nproc) --path vendor
+  - bundle install -j $(nproc) --path /vendor
   # - cp config/database.yml.gitlab config/database.yml
   - RAILS_ENV=test bundle exec rake db:create db:grate
 
